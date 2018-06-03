@@ -240,6 +240,15 @@ snippet ~exd "export default x;"
 export default ${0};
 endsnippet
 
+#require
+snippet ~r "const x = require( 'path' );"
+const ${1} = require( '${2}' );
+endsnippet
+
+snippet ~rm "const x = require( '@lvchengbin/x' );"
+const ${1} = require( '@lvchengbin/${1/\w/\l$0/g}' );
+endsnippet
+
 # Promise
 # .then().catch()
 snippet ~ptc ".then( () => {} ).catch( e => console.log( e ) );"
