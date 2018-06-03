@@ -160,6 +160,29 @@ snippet ~symbol "const A_B_C = Symbol( 'a_b_c' )"
 const ${1} = Symbol( '${1/\w/\l$0/g}' )
 endsnippet
 
+# if
+
+# if( ... ) break
+snippet ~ifb "if( conditions ) break;"
+if( ${0:/* conditions */} ) break;
+endsnippet
+
+# if( ... ) continue
+snippet ~ifc "if( conditions ) continue;"
+if( ${0:/* conditions */} ) continue;
+endsnippet
+
+# if ( ...) return
+snippet ~ifr "if( conditions ) return;"
+if( ${1:/* conditions */} ) return ${0:${VISUAL}};
+endsnippet
+
+# assignment
+
+snippet ~ass "x || ();"
+${1} || ( $1 = ${2} );
+endsnippet
+
 # json
 
 # JSON.parse
@@ -231,6 +254,11 @@ snippet ~imm "import x from '@lvchengbin/x';"
 import ${1} from '@lvchengbin/${1/\w/\l$0/g}';
 endsnippet
 
+# import packages from current dir
+snippet ~imrel "import x from './x';"
+import ${1} from './${1/\w/\l$0/g}';
+endsnippet
+
 # import file from @lvchengbin/is
 snippet ~immis "import isXX from '@lvchengbin/is/src/xx';"
 import is${1} from '@lvchengbin/is/src/${1/\w/\l$0/g}';
@@ -240,9 +268,21 @@ snippet ~exd "export default x;"
 export default ${0};
 endsnippet
 
+snippet ~mexi "module.exports.x = {};"
+module.exports.${1} = ${0:${VISUAL}}
+endsnippet
+
+snippet ~mex "module.exports.x = {};"
+module.exports = ${0:${VISUAL}}
+endsnippet
+
 #require
 snippet ~r "const x = require( 'path' );"
 const ${1} = require( '${2}' );
+endsnippet
+
+snippet ~rrel "const x = require( './x' );"
+const ${1} = require( './${1/\w/\l$0/g}' );
 endsnippet
 
 snippet ~rm "const x = require( '@lvchengbin/x' );"
@@ -250,11 +290,27 @@ const ${1} = require( '@lvchengbin/${1/\w/\l$0/g}' );
 endsnippet
 
 # Promise
+
+snippet ~then".then( () => {} );"
+.then( ${1} => { ${0:${VISUAL}} } );
+
 # .then().catch()
-snippet ~ptc ".then( () => {} ).catch( e => console.log( e ) );"
+snippet ~thenc".then( () => {} ).catch( e => console.log( e ) );"
 .then( ${1} => {
 	${0:${VISUAL}}
 } ).catch( e => {
 	console.log( e );
 } );
+endsnippet
+
+# settimeout
+snippet ~sto "setTimeout(() => {}, delay);"
+setTimeout( () => {
+	${0:${VISUAL}}
+}, ${1:0})
+endsnippet
+
+# call
+snippet ~call "func.call( this, ...args )"
+${1}.call( ${2:this}, ${3:...args} );
 endsnippet
