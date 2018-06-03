@@ -1,0 +1,251 @@
+# class
+snippet ~cls "class C {}"
+class ${1}{
+	${0:${VISUAL}}
+}
+endsnippet
+
+# class with constructor
+snippet ~clsc "class C { constructor() {} }"
+class ${1}{
+	constructor( ${2:options = \{\}} ) {
+		${0:${VISUAL}}
+	}
+}
+endsnippet
+
+# class extends from another object
+snippet ~clse "class C extends S {}"
+class ${1}extends ${2:Base} {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# class extends from another object with a constructor
+snippet ~clsec "class C extends E { constructor( o ) { super( o ) } }"
+class ${1}extends ${2:Base} {
+	constructor( ${3:options = \{\}} ) {
+		super( ${4:options} );
+		${0:${VISUAL}}
+	}
+}
+endsnippet
+
+# for
+snippet ~for "for( let i = 0, l = x.length; i < l; i += 1 ) { const item = x[ i ]; }"
+for( let ${1:i} = 0, l = ${2:list}.length; $1 < $2; $1 += 1 ) {
+	const ${3:item} = $2[ $1 ];
+	${0:${VISUAL}}
+}
+endsnippet
+
+# for...of
+snippet ~forof "for( let item of list ) {}"
+for( let ${1:item} of ${2:list} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# for...in
+snippet ~forin "for( let prop in obj ) { const item = obj[ prop ]; }"
+for( let ${1:prop} in ${2:obj} ) {
+	const ${3:item} = $2[ $1 ];
+	${0:${VISUAL}}
+}
+endsnippet
+# functions
+snippet ~f "( arg1, arg2, ... ) => {}"
+( ${1} ) => {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~fun "function( arg1, arg2, ... ) {}"
+function( ${1} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~nfun "function fn( arg1, arg2, ... ) {}"
+function ${1}( ${2} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~af "async ( arg1, arg2, ... ) => {}"
+async ( ${1} ) => {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~afun "async function( arg1, arg2, ... ) {}"
+async function( ${1} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~anfun "async function fn( arg1, arg2, ... ) {}"
+async function ${1}( ${2} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~f? "x => {}"
+${1} => {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~af? "async x => {}"
+async ${1} => {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ~iife "( () => {} )()"
+( () => {
+	${0:${VISUAL}}
+} )();
+endsnippet
+
+# throw
+snippet ~tr "throw new Error( error message )"
+throw new Error( '${1:error message}' );
+endsnippet
+
+snippet ~ttr "throw new TypeError( error message )"
+throw new TypeError( '${1:error message}' );
+endsnippet
+
+# try
+snippet ~try "try { ... } catch( e ) { ... }"
+try {
+	${0:${VISUAL}}
+} catch( ${1:e} ) {
+	${2:/* handle error*/}
+}
+endsnippet
+
+# try catch statement with finally
+snippet ~tryf "try { ... } catch( e ) { ... } finally { ... }"
+try {
+	${3:${VISUAL}}
+} catch( ${1:e} ) {
+	${2:/* handle error*/}
+} finally {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# switch
+snippet ~switch
+switch( ${1} ) {
+	case '${2}' :
+		${3}
+		break;
+	${0}
+	default :
+		${4}
+}
+endsnippet
+
+snippet ~case
+case '${1}' :
+	${0:${VISUAL}}
+	${2:break;}
+endsnippet
+
+#symbol
+snippet ~symbol "const A_B_C = Symbol( 'a_b_c' )"
+const ${1} = Symbol( '${1/\w/\l$0/g}' )
+endsnippet
+
+# json
+
+# JSON.parse
+snippet ~jp "JSON.parse( object )"
+JSON.parse( ${0} );
+endsnippet
+
+# JSON.stringify
+snippet ~jstr "JSON.stringify( json )"
+JSON.stringify( ${0} );
+endsnippet
+
+# dom selector
+
+# document.querySelector( selector )
+snippet ~$ "document.querySelector( selectors )"
+${0:document}.querySelector( '${1:selector}' );
+endsnippet
+
+# document.querySelectorAll( selector )
+snippet ~$$ "document.querySelectorAll( selectors )"
+${0:document}.querySelectorAll( '${1:selector}' );
+endsnippet
+
+# document.getElementById( id )
+snippet ~$#
+document.getElementById( '${0:id}' );
+endsnippet
+
+# console
+snippet ~cl "console.log( ...args )"
+console.log( ${0} );
+endsnippet
+
+snippet ~cw "console.warn( ...args )"
+console.warn( ${0} );
+endsnippet
+
+snippet ~cd "console.debug( ...args )"
+console.debug( ${0} );
+endsnippet
+
+snippet ~ce "console.error( ...args )"
+console.log( ${0} );
+endsnippet
+
+snippet ~ci "console.info( ...args )"
+console.log( ${0} );
+endsnippet
+
+# use strict
+snippet ~us "'use strict'"
+'use strict';
+endsnippet
+
+# modules
+
+# import es6 module
+snippet ~im "import X from 'path';"
+import ${1} from '${0}';
+endsnippet
+
+snippet ~imx "import {a,b} from 'path';"
+import { ${1} } from '${0}';
+endsnippet
+
+# import packages from @lvchengbin
+snippet ~imm "import x from '@lvchengbin/x';"
+import ${1} from '@lvchengbin/${1/\w/\l$0/g}';
+endsnippet
+
+# import file from @lvchengbin/is
+snippet ~immis "import isXX from '@lvchengbin/is/src/xx';"
+import is${1} from '@lvchengbin/is/src/${1/\w/\l$0/g}';
+endsnippet
+
+snippet ~exd "export default x;"
+export default ${0};
+endsnippet
+
+# Promise
+# .then().catch()
+snippet ~ptc ".then( () => {} ).catch( e => console.log( e ) );"
+.then( ${1} => {
+	${0:${VISUAL}}
+} ).catch( e => {
+	console.log( e );
+} );
+endsnippet
