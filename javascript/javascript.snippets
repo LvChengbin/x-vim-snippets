@@ -54,6 +54,8 @@ for( let ${1:prop} in ${2:obj} ) {
 }
 endsnippet
 # functions
+
+# arrow function
 snippet ~f "( arg1, arg2, ... ) => {}"
 ( ${1} ) => {
 	${0:${VISUAL}}
@@ -72,36 +74,49 @@ function ${1}( ${2} ) {
 }
 endsnippet
 
+# async arrow function
 snippet ~af "async ( arg1, arg2, ... ) => {}"
 async ( ${1} ) => {
 	${0:${VISUAL}}
 }
 endsnippet
 
+# async method
+snippet ~am "async func() {}"
+async ${1}( ${2} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# async anonymous function
 snippet ~afun "async function( arg1, arg2, ... ) {}"
 async function( ${1} ) {
 	${0:${VISUAL}}
 }
 endsnippet
 
+# async named function
 snippet ~anfun "async function fn( arg1, arg2, ... ) {}"
 async function ${1}( ${2} ) {
 	${0:${VISUAL}}
 }
 endsnippet
 
+# arrow function with only one argument
 snippet ~f? "x => {}"
 ${1} => {
 	${0:${VISUAL}}
 }
 endsnippet
 
+# async arrow function with only one argument
 snippet ~af? "async x => {}"
 async ${1} => {
 	${0:${VISUAL}}
 }
 endsnippet
 
+# an iife
 snippet ~iife "( () => {} )()"
 ( () => {
 	${0:${VISUAL}}
@@ -109,10 +124,13 @@ snippet ~iife "( () => {} )()"
 endsnippet
 
 # throw
+
+# throw an Error instance
 snippet ~tr "throw new Error( error message )"
 throw new Error( '${1:error message}' );
 endsnippet
 
+# throw an TypeError instance
 snippet ~ttr "throw new TypeError( error message )"
 throw new TypeError( '${1:error message}' );
 endsnippet
@@ -179,7 +197,7 @@ endsnippet
 
 # assignment
 
-snippet ~ass "x || ();"
+snippet ~|| "x || ();"
 ${1} || ( $1 = ${2} );
 endsnippet
 
@@ -282,7 +300,7 @@ const ${1} = require( '${2}' );
 endsnippet
 
 snippet ~rrel "const x = require( './x' );"
-const ${1} = require( './${1/\w/\l$0/g}' );
+const ${1} = require( './${1/\w/\l$0/g}${0:${VISUAL}}' );
 endsnippet
 
 snippet ~rm "const x = require( '@lvchengbin/x' );"
@@ -313,4 +331,11 @@ endsnippet
 # call
 snippet ~call "func.call( this, ...args )"
 ${1}.call( ${2:this}, ${3:...args} );
+endsnippet
+
+# multiple lines comment
+snippet ~cmt "/** */"
+/**
+ * ${0:${VISUAL}}
+ */
 endsnippet

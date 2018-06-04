@@ -1,0 +1,22 @@
+# jasmine
+
+# describe
+snippet ~desc "describe( 'desc', () => {} );"
+describe( '${1}', () => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# it
+snippet ~it "it( 'desc', () => {} );"
+it( '${1}', () => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# async it with a done
+snippet ~itd "it( 'desc', done => {} );"
+it( '${1}', done => {
+	${0:${VISUAL}}
+} );
+endsnippet
