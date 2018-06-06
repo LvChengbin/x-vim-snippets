@@ -1,0 +1,46 @@
+# html
+
+snippet ~html "<!DOCTYPE html><html>...</html>"
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>${1}</title>
+	</head>
+	<body>
+		${0:${VISUAL}}
+	</body>
+</html>
+endsnippet
+
+# script with src
+snippet ~js.src "<script src=...></script>"
+<script src="${1}"></script>
+endsnippet
+
+# script without src
+snippet ~js "<script>...</script>"
+<script>
+	${0:${VISUAL}}
+</script>
+endsnippet
+
+# css
+snippet ~css "<link rel=stylesheet href=... />."
+<link rel="stylesheet" href="${1}" />
+endsnippet
+
+# style
+snippet ~style "<style>...</style>"
+<style>
+	${0:${VISUAL}}
+</style>
+endsnippet
+
+# ul
+snippet ~ul "<ul><li>...</li></ul>"
+<ul>
+	<li>${1}</li>
+	${0:${VISUAL}}
+</ul>
+endsnippet
