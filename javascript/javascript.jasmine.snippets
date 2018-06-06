@@ -20,3 +20,18 @@ it( '${1}', done => {
 	${0:${VISUAL}}
 } );
 endsnippet
+
+# expect something to be truthy
+snippet ~?t "expect( x ).toBeTruthy();"
+expect( ${1} ).toBeTruthy();
+endsnippet
+
+# expect something to be falsy
+snippet ~?f "expect( x ).toBeFalsy();"
+expect( ${1} ).toBeFalsy();
+endsnippet
+
+# expect something to be equal to
+snippet ~?e "expect( x ).toEqual( 1 );"
+expect( ${1} ).toEqual( ${1} );
+endsnippet

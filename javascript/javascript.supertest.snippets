@@ -7,14 +7,14 @@ ${1:request}( ${2:app}.listen() ).${0:${VISUAL}}
 endsnippet
 
 snippet ~test.req.get "request( app.listen() ).get()"
-${1:request}( ${2:app}.listen() ).get( '${3}' )
+${1:request}( ${2:app}.listen() ).get( ${3} )
 	.expect( ${4:200} )
 	${0:${VISUAL}}
 	.end( e => e ? done.fail( e ) : done() );
 endsnippet
 
 snippet ~test.req.post"request( app.listen() ).post()"
-${1:request}( ${2:app}.listen() ).post( '${3}' )
+${1:request}( ${2:app}.listen() ).post( ${3} )
 	.expect( ${4:200} )
 	${0:${VISUAL}}
 	.end( e => e ? done.fail( e ) : done() );
