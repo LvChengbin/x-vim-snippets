@@ -62,6 +62,20 @@ snippet ~f "( arg1, arg2, ... ) => {}"
 }
 endsnippet
 
+# arrow function end with a )
+snippet ~f) "( arg1, arg2, ... ) => {} );"
+(${1}) => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# arrow function end with a ;
+snippet ~f; "( arg1, arg2, ... ) => {} );"
+(${1}) => {
+	${0:${VISUAL}}
+};
+endsnippet
+
 snippet ~fun "function( arg1, arg2, ... ) {}"
 function(${1}) {
 	${0:${VISUAL}}
@@ -114,6 +128,20 @@ snippet ~f? "x => {}"
 ${1} => {
 	${0:${VISUAL}}
 }
+endsnippet
+
+# arrow function with only one argument end with a )
+snippet ~f?) "x => {} );"
+${1} => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# arrow function with only one argument end with a ;
+snippet ~f?; "x => {} );"
+${1} => {
+	${0:${VISUAL}}
+};
 endsnippet
 
 # async arrow function with only one argument
@@ -187,6 +215,31 @@ endsnippet
 
 # if
 
+# if
+snippet ~if "if( conditions ) {}"
+if( ${1} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# if...else
+snippet ~ifel "if ... else ..."
+if( ${1} ) {
+	${2}
+} else {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# if...elseif...
+snippet ~ifelif "if ... else if ..."
+if( ${1} ) {
+	${2}
+} else if( ${3} ) {
+	${0:${VISUAL}}
+}
+endsnippet
+
 # if( ... ) break
 snippet ~ifb "if( conditions ) break;"
 if( ${0:/* conditions */} ) break;
@@ -238,29 +291,30 @@ document.getElementById( '${0:id}' );
 endsnippet
 
 # console
-snippet ~cl "console.log( ...args )"
-console.log( ${0} );
+snippet ~csl "console.log( ...args )"
+console.log( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~cw "console.warn( ...args )"
-console.warn( ${0} );
+snippet ~csw "console.warn( ...args )"
+console.warn( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~cd "console.debug( ...args )"
-console.debug( ${0} );
+snippet ~csd "console.debug( ...args )"
+console.debug( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~ce "console.error( ...args )"
-console.log( ${0} );
+snippet ~cse "console.error( ...args )"
+console.error( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~ci "console.info( ...args )"
-console.log( ${0} );
+snippet ~csi "console.info( ...args )"
+console.info( ${0:${VISUAL}} );
 endsnippet
 
 # use strict
 snippet ~us "'use strict'"
 'use strict';
+${0:{VISUAL}}
 endsnippet
 
 # modules
@@ -352,13 +406,13 @@ endsnippet
 # regexp
 
 # all the characters are numeric
-snippet ~reg.n "/^\d+$/"
+snippet ~reg.n "/^\d+$/" i
 /^\d+$/
 endsnippet
 
 # to test a string is filled all by numeric
-snippet ~reg.n.t "/^\d+$/"
-/^\d+$/.test( ${1} );
+snippet ~reg.n.t "/^\d+$/" i
+/^\d+$/.test( ${1} )
 endsnippet
 
 # lowercase string
@@ -368,7 +422,7 @@ endsnippet
 
 # test lowercase string
 snippet ~reg.lc.t "/^[a-z]+$/"
-/^[a-z]+$/.t( ${1} );
+/^[a-z]+$/.t( ${1} )
 endsnippet
 
 # uppercase string
@@ -378,5 +432,5 @@ endsnippet
 
 # test uppercase string
 snippet ~reg.lu.t "/^[A-Z]+$/"
-/^[A-Z]+$/.t( ${1} );
+/^[A-Z]+$/.t( ${1} )
 endsnippet
