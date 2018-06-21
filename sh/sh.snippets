@@ -40,6 +40,13 @@ if [ ${1}-z ${2} ]; then
 fi
 endsnippet
 
+# if-r
+snippet ~if-r "if [ -r $var ]; then ... fi"
+if [ ${1}-z ${2} ]; then
+	${0:${VISUAL}}
+fi
+endsnippet
+
 # if.set
 snippet ~if.set "if [ -z ${var+x} ]; then ... fi"
 if [ -z \$\{${1}+x\} ]; then
@@ -76,4 +83,25 @@ snippet "~if.'?'?" "if [[ $s == '' ]]; then ... fi" r
 if${1} [[ ${2} == "" ]]; then
 	${0:${VISUAL}}
 fi
+endsnippet
+
+# function
+snippet "~fu?n?" "function fn() {}" r
+function ${1}() {
+	${0:${VISUAL}}
+}
+endsnippet
+
+# while
+snippet "~wh?i?l?e?" "while ; do done" r
+while ${1}; do
+	${0:${VISUAL}}
+done
+endsnippet
+
+# read file by lines
+snippet "~read.li?n?e?" "while read -r ..." r
+while read -r ${1:line} || [[ -n "$$1" ]]; do
+	${0:${VISUAL}}
+done < "${2}"
 endsnippet
