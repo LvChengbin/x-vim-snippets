@@ -1,106 +1,106 @@
 # if
-snippet ~if "if []; then ... fi"
+snippet if "if []; then ... fi"
 if [ ${1} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 #if -eq
-snippet ~ifeq "if [ x -eq y ]; then ... fi"
+snippet ifeq "if [ x -eq y ]; then ... fi"
 if [ ${1} -eq ${2} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if with ==
-snippet ~if== "if [[ x == y ]]; then ... fi"
+snippet if== "if [[ x == y ]]; then ... fi"
 if [[ ${1} == ${2} ]]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if -d
-snippet ~if-d "if [ -d name ]; then ... fi"
+snippet if-d "if [ -d name ]; then ... fi"
 if [ ${1}-d ${2} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if -f
-snippet ~if-f "if [ -f name ]; then ... fi"
+snippet if-f "if [ -f name ]; then ... fi"
 if [ ${1}-f ${2} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if-z
-snippet ~if-z "if [ -z $var ]; then ... fi"
+snippet if-z "if [ -z $var ]; then ... fi"
 if [ ${1}-z ${2} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if-r
-snippet ~if-r "if [ -r $var ]; then ... fi"
+snippet if-r "if [ -r $var ]; then ... fi"
 if [ ${1}-z ${2} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if.set
-snippet ~if.set "if [ -z ${var+x} ]; then ... fi"
+snippet if.set "if [ -z ${var+x} ]; then ... fi"
 if [ -z \$\{${1}+x\} ]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # for...in...
-snippet ~forin "for i in xxx do ... done"
+snippet forin "for i in xxx do ... done"
 for ${1:i} in ${2}; do
 	${0:${VISUAL}}
 done
 endsnippet
 
 # array length
-snippet "~arr.le?n?" "${array[@]}" r
+snippet "arr.le?n?" "${array[@]}" r
 \$\{${1}[@]\}
 endsnippet
 
 # cut string by position
-snippet "~str.cu?t?" "${str:m:n}" r
+snippet "str.cu?t?" "${str:m:n}" r
 \$\{${1}:${2}:${3}\}
 endsnippet
 
 # if a variable is a number or not
-snippet "~if.n" "if ! [[ $n =~ '^[0-9]+$' ]]; then ... fi"
-if${1} [[ ${2} =~ '^[0-9]+$' ]]; then
+snippet "if.n" "if ! [[ $n = '^[0-9]+$' ]]; then ... fi"
+if${1} [[ ${2} = '^[0-9]+$' ]]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # if a string is empty
-snippet "~if.'?'?" "if [[ $s == '' ]]; then ... fi" r
+snippet "if.'?'?" "if [[ $s == '' ]]; then ... fi" r
 if${1} [[ ${2} == "" ]]; then
 	${0:${VISUAL}}
 fi
 endsnippet
 
 # function
-snippet "~fu?n?" "function fn() {}" r
+snippet "fu?n?" "function fn() {}" r
 function ${1}() {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # while
-snippet "~wh?i?l?e?" "while ; do done" r
+snippet "wh?i?l?e?" "while ; do done" r
 while ${1}; do
 	${0:${VISUAL}}
 done
 endsnippet
 
 # read file by lines
-snippet "~read.li?n?e?" "while read -r ..." r
+snippet "read.li?n?e?" "while read -r ..." r
 while read -r ${1:line} || [[ -n "$$1" ]]; do
 	${0:${VISUAL}}
 done < "${2}"

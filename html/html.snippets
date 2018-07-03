@@ -1,6 +1,6 @@
 # html
 
-snippet ~html "<!DOCTYPE html><html>...</html>"
+snippet html "<!DOCTYPE html><html>...</html>"
 <!DOCTYPE html>
 <html>
 	<head>
@@ -14,31 +14,31 @@ snippet ~html "<!DOCTYPE html><html>...</html>"
 endsnippet
 
 # script with src
-snippet ~js.src "<script src=...></script>"
+snippet js.src "<script src=...></script>"
 <script src="${1}"></script>
 endsnippet
 
 # script without src
-snippet ~js "<script>...</script>"
+snippet js "<script>...</script>"
 <script>
 	${0:${VISUAL}}
 </script>
 endsnippet
 
 # css
-snippet ~css "<link rel=stylesheet href=... />."
+snippet css "<link rel=stylesheet href=... />."
 <link rel="stylesheet" href="${1}" />
 endsnippet
 
 # style
-snippet ~style "<style>...</style>"
+snippet style "<style>...</style>"
 <style>
 	${0:${VISUAL}}
 </style>
 endsnippet
 
 # ul
-snippet ~ul "<ul><li>...</li></ul>"
+snippet ul "<ul><li>...</li></ul>"
 <ul>
 	<li>${1}</li>
 	${0:${VISUAL}}
