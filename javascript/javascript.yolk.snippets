@@ -1,42 +1,42 @@
 # jasmine
 
 # new Yolk
-snippet yo "new Yolk()"
+snippet ~yo "new Yolk()"
 new Yolk( {
 	${1:root : __dirname}
 } );
 endsnippet
 
 # yolk controller
-snippet yoc "class extends Yolk.Controller {};"
+snippet ~yoc "class extends Yolk.Controller {};"
 class${1: }extends ${2:require( '@lvchengbin/yolk' )}.Controller {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # yolk module
-snippet yom "class extends Yolk.Module {};"
+snippet ~yom "class extends Yolk.Module {};"
 class${1: }extends ${2:require( '@lvchengbin/yolk' )}.Module {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # yolk service
-snippet yos "class extends Yolk.Service {};"
+snippet ~yos "class extends Yolk.Service {};"
 class${1: }extends ${2:require( '@lvchengbin/yolk' )}.Service {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # yolk action
-snippet yoa "indexAction() {}"
+snippet ~yoa "indexAction() {}"
 ${1:index}Action() {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # yolk action
-snippet yoaa "indexAction() {}"
+snippet ~yoaa "indexAction() {}"
 async ${1:index}Action() {
 	${0:${VISUAL}}
 }
@@ -45,49 +45,49 @@ endsnippet
 # yolk console
 
 # this.console.log
-snippet yocsl "this.console.log( 'abc' );"
+snippet ~yocsl "this.console.log( 'abc' );"
 this.console.log( ${1} );
 endsnippet
 
 # this.console.warn
-snippet yocsw "this.console.warn( 'abc' );"
+snippet ~yocsw "this.console.warn( 'abc' );"
 this.console.warn( ${1} );
 endsnippet
 
 # this.console.debug
-snippet yocsd "this.console.debug( 'abc' );"
+snippet ~yocsd "this.console.debug( 'abc' );"
 this.console.debug( ${1} );
 endsnippet
 
 # this.console.error
-snippet yocse "this.console.error( 'abc' );"
+snippet ~yocse "this.console.error( 'abc' );"
 this.console.error( ${1} );
 endsnippet
 
 # this.console.info
-snippet yocsi "this.console.info( 'abc' );"
+snippet ~yocsi "this.console.info( 'abc' );"
 this.console.info( ${1} );
 endsnippet
 
 #yolk logger
 
 # this.logger.log
-snippet "yologl?" "this.logger.log( 'abc' );" r
+snippet "~yologl?" "this.logger.log( 'abc' );" r
 this.logger.log( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.error
-snippet yologe "this.logger.error( 'abc' );"
+snippet ~yologe "this.logger.error( 'abc' );"
 this.logger.error( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.warn
-snippet yologw "this.logger.warn( 'abc' );"
+snippet ~yologw "this.logger.warn( 'abc' );"
 this.logger.warn( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.info
-snippet yologi "this.logger.info( 'abc' );"
+snippet ~yologi "this.logger.info( 'abc' );"
 this.logger.info( ${1}, ${2:\{\}} );
 endsnippet
 
