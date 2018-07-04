@@ -380,7 +380,7 @@ endsnippet
 #require
 
 # require at the beginning of the line
-snippet ~"re?q?" "const x = require( 'path' );" rb
+snippet "~re?q?" "const x = require( 'path' );" rb
 const ${1} = require( '${2:$1}' );
 endsnippet
 
@@ -394,11 +394,11 @@ endsnippet
 
 # Promise
 
-snippet ~then".then( () => {} );" i
+snippet ~then ".then( () => {} );" i
 .then( ${1} => { ${0:${VISUAL}} } );
 
 # .then().catch()
-snippet ~thenc".then( () => {} ).catch( e => console.log( e ) );" i
+snippet ~thenc ".then( () => {} ).catch( e => console.log( e ) );" i
 .then( ${1} => {
 	${0:${VISUAL}}
 } ).catch( e => {
