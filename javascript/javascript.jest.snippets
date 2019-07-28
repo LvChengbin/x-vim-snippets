@@ -21,6 +21,13 @@ it( '${1}', done => {
 } );
 endsnippet
 
+# async function
+snippet ~ita "it( 'desc', async () => {} );"
+it( '${1}', async () => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
 # expect( x )
 snippet ~? "expect( x )"
 expect( ${1} ).${0:${VISUAL}};
@@ -49,6 +56,11 @@ endsnippet
 # expect something to be defined
 snippet ~?d "expect( x ).toBeDefined();"
 expect( ${1} ).toBeDefined();
+endsnippet
+
+# expect an object to have property
+snippet ~?h	"expect( x ).toHaveProperty( 'name', [value] )"
+expect( ${1} ).toHaveProperty( ${2}${0:${VISUAL}} );
 endsnippet
 
 # expect something shoule be a resolved promise object

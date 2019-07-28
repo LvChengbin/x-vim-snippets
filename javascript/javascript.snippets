@@ -394,7 +394,7 @@ endsnippet
 
 # require at the beginning of the line
 snippet "~re?q?" "const x = require( 'path' );" rb
-const ${1} = require( '${2:$1}' );
+const ${1} = require( '${1/\w/\l$0/g}${0:${VISUAL}}' );
 endsnippet
 
 snippet ~rrel "const x = require( './x' );"
