@@ -3,7 +3,9 @@
 # new Ynn 
 snippet ~ynn "new Ynn()"
 new Ynn( {
-	${1:root : __dirname}
+	root : __dirname,
+	debugging : ${1:false},
+	logging : ${2:true}${0:${VISUAL}}
 } );
 endsnippet
 
@@ -13,29 +15,29 @@ snippet ~y.i
 
 const Ynn = require( 'ynn' );
 const app = new Ynn( {
-	root : __dirname${0:${VISUAL}}
+	root : __dirname,
+	debugging : ${1:false},
+	logging : ${2:true}${0:${VISUAL}}
 } );
-require.main === module && app.listen( Ynn.cargs.port );
+
+module.parent || app.listen( Ynn.cargs.port );
 module.exports = app;
 endsnippet
 
 # ynn controller
 snippet ~y.c "class extends Ynn.Controller {};"
-class${1: }extends ${2:require( 'ynn' )}.Controller {
-	${0:${VISUAL}}
-}
-endsnippet
+const Ynn = require( 'ynn' );
 
-# ynn module
-snippet ~y.m "class extends Ynn.Module {};"
-class${1: }extends ${2:require( 'ynn' )}.Module {
+class${1: }extends Ynn.Controller {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # ynn service
 snippet ~y.s "class extends Ynn.Service {};"
-class${1: }extends ${2:require( 'ynn' )}.Service {
+const Ynn = require( 'ynn' );
+
+class${1: }extends Ynn.Service {
 	${0:${VISUAL}}
 }
 endsnippet
@@ -111,4 +113,16 @@ endsnippet
 # ${__ynn__.server}
 snippet ~y.$_s "${__ynn__.server}" i
 ${__ynn__.server}
+endsnippet
+
+# const ctx = this.ctx; const query = ctx.query;
+snippet ~y.query "const ctx = this.ctx; const query = ctx.query" i
+const ctx = this.ctx;
+const query = ctx.query;
+endsnippet
+
+# const ctx = this.ctx; const body = ctx.body;
+snippet ~y.body "const ctx = this.ctx; const body = ctx.request.body" i
+const ctx = this.ctx;
+const body = ctx.request.body;
 endsnippet
