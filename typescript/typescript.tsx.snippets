@@ -1,16 +1,46 @@
 # define variables
 
-snippet "~im?.mui.button" r
-import Button from '@material-ui/core/Button';
-${0:${VISUAL}}
+snippet ~react.i "initialize code for a react component"
+import React from 'react';
+
+export default function ${1}( props: ${2} ): JSX.Element {
+	return (
+		<${3}>
+		</${3}>
+	);
+}
 endsnippet
 
-snippet "~im?.mui.textfield" r
-import TextField from '@material-ui/core/TextField';
-${0:${VISUAL}}
+snippet ~react.jssdk "initialize react componet with styles"
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles } from '../../lib/styles';
+import { ${1:MCCP} } from '../ComponentProps';
+
+export type ${2}Props = $1<$3{
+	${4}
+}>;
+
+const useStyles = makeStyles( (${5}) => {
+	return {
+		root : {
+		}
+	};
+} );
+
+export default function $2( props: $2Props ): JSX.Element {
+	const styles = useStyles( props );
+	const { className, style } = props;
+
+	return (
+		<${6:div} className={clsx(styles.root, className)} style={style}>
+			${0:${VISUAL}}
+		</$6>
+	);
+}
 endsnippet
 
-snippet "~im?.mui.checkbox" r
-import Checkbox from '@material-ui/core/Checkbox';
-${0:${VISUAL}}
+snippet ~react.us "const [ x, setX ] = React.useState( v )"
+const [ ${1}, set${1/\w/\u$0/g} ] = React.useState( ${2:null} );
+${0:${VISUAL}};
 endsnippet
