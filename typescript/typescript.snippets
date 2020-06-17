@@ -8,14 +8,6 @@ snippet ~c` "const x = ``"
 const ${1} = `${2}`;
 endsnippet
 
-snippet ~ee "x === y"
-${1} == ${2}
-endsnippet
-
-snippet ~eee "x === y"
-${1} === ${2}
-endsnippet
-
 snippet "~le?t?" "let x = 1" r
 let ${1} = ${2};
 endsnippet
@@ -483,9 +475,4 @@ endsnippet
 # test uppercase string
 snippet ~reg.lu.t "/^[A-Z]+$/"
 /^[A-Z]+$/.t( ${1} )
-endsnippet
-
-# path.resolve
-snippet ~pr "path.resolve( x, y )"
-path.resolve( ${1}, ${2} )
 endsnippet

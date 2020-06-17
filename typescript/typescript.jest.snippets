@@ -1,0 +1,79 @@
+# jasmine
+
+# describe
+snippet ~desc "describe( 'desc', () => {} );"
+describe( '${1}', () => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# it
+snippet ~it "it( 'desc', () => {} );"
+it( '${1}', ${2:()} => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# async it with a done
+snippet ~itd "it( 'desc', done => {} );"
+it( '${1}', done => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# async function
+snippet ~ita "it( 'desc', async () => {} );"
+it( '${1}', async () => {
+	${0:${VISUAL}}
+} );
+endsnippet
+
+# expect( x )
+snippet ~? "expect( x )"
+expect( ${1} ).${0:${VISUAL}};
+endsnippet
+
+# expect something to be truthy
+snippet ~?t "expect( x ).toBeTruthy();"
+expect( ${1} ).toBeTruthy();
+endsnippet
+
+# expect something to be falsy
+snippet ~?f "expect( x ).toBeFalsy();"
+expect( ${1} ).toBeFalsy();
+endsnippet
+
+# expect something to be equal to
+snippet ~?e "expect( x ).toEqual( 1 );"
+expect( ${1} ).toEqual( ${2} );
+endsnippet
+
+# expect something to be undefined
+snippet ~?u "expect( x ).toBeUndefined();"
+expect( ${1} ).toBeUndefined();
+endsnippet
+
+# expect something to be defined
+snippet ~?d "expect( x ).toBeDefined();"
+expect( ${1} ).toBeDefined();
+endsnippet
+
+# expect an object to have property
+snippet ~?h	"expect( x ).toHaveProperty( 'name', [value] )"
+expect( ${1} ).toHaveProperty( ${2}${0:${VISUAL}} );
+endsnippet
+
+# expect something shoule be a resolved promise object
+snippet ~?rs "expect( x ).resolves.toBe( x );"
+expect( ${1} ).resolves.toBe( ${0:${VISUAL}} );
+endsnippet
+
+# expect something should be something
+snippet ~?b "expect( x ).toBe( x );"
+expect( ${1} ).toBe( ${0:${VISUAL}} );
+endsnippet
+
+# expect something should be a rejected promise object
+snippet ~?rj "expect( x ).rejects.toThrow();"
+expect( ${1} ).rejects.toThrow();
+endsnippet
