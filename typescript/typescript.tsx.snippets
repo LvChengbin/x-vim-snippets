@@ -14,3 +14,83 @@ snippet "~im?.mui.checkbox" "import Checkbox from '@material-ui/core/Checkbox'" 
 import Checkbox from '@material-ui/core/Checkbox';
 ${0:${VISUAL}}
 endsnippet
+
+snippet ~react.i "initialize code for a react component"
+import React from 'react';
+
+export default function ${1}( props: ${2} ): JSX.Element {
+	return (
+		<${3}>
+		</${3}>
+	);
+}
+endsnippet
+
+snippet ~react.i.ns "initialize react component for ns"
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { ${1:MCCP} } from '../ComponentProps';
+
+export type ${2}Props = $1<$3{
+	${4}
+}>
+
+const useStyles = makeStyles( ( ${5:theme: Theme} ) => {
+	return createStyles( {
+		root : {
+		}
+	} )
+} );
+
+export default function $2( props: $2Props ): JSX.Element {
+	const styles = useStyles( props );
+	const { className, style } = props;
+
+	return (
+		<${6:div} className={clsx(styles.root, className)} style={style}>
+		</$6}
+	);
+}
+endsnippet
+
+snippet ~react.i.jssdk "initialize react componet for ZY JSSDK"
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles } from '../../lib/styles';
+import { ${1:MCCP} } from '../ComponentProps';
+
+export type ${2}Props = $1<$3{
+	${4}
+}>;
+
+const useStyles = makeStyles( (${5}) => ( {
+	root : {
+	}
+} ) );
+
+export default function $2( props: $2Props ): JSX.Element {
+	const styles = useStyles( props );
+	const { className, style } = props;
+
+	return (
+		<${6:div} className={clsx(styles.root, className)} style={style}>
+			${0:${VISUAL}}
+		</$6>
+	);
+}
+endsnippet
+
+snippet ~react.h.us "const [ x, setX ] = React.useState( v )"
+const [ ${1}, set${1/\w+/\u$0/g} ] = React.useState( ${2:null} );
+endsnippet
+
+snippet ~react.h.ur "const xRef = React.useRef()"
+const ${1} = React.useRef(${2});
+endsnippet
+
+snippet ~react.h.ue "React.useEffect( () => {} );"
+React.useEffect( () => {	
+	${0:${VISUAL}}
+}${1} );
+endsnippet
