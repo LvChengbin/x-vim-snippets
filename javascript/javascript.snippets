@@ -1,38 +1,38 @@
 # define variables
 
-snippet "~co?n?s?t?" "const x = 1" r
+snippet "co?n?s?t?" "const x = 1" r
 const ${1} = ${2};
 endsnippet
 
-snippet ~c` "const x = ``"
+snippet c` "const x = ``"
 const ${1} = `${2}`;
 endsnippet
 
-snippet ~ee "x === y"
+snippet ee "x === y"
 ${1} == ${2}
 endsnippet
 
-snippet ~eee "x === y"
+snippet eee "x === y"
 ${1} === ${2}
 endsnippet
 
-snippet "~le?t?" "let x = 1" r
+snippet "le?t?" "let x = 1" r
 let ${1} = ${2};
 endsnippet
 
-snippet ~l` "let x = ``"
+snippet l` "let x = ``"
 let ${1} = `${2}`;
 endsnippet
 
 # class
-snippet ~cls "class C {}"
+snippet cls "class C {}"
 class ${1}{
 	${0:${VISUAL}}
 }
 endsnippet
 
 # class with constructor
-snippet ~clsc "class C { constructor() {} }"
+snippet clsc "class C { constructor() {} }"
 class ${1}{
 	constructor( ${2:options = \{\}} ) {
 		${0:${VISUAL}}
@@ -41,14 +41,14 @@ class ${1}{
 endsnippet
 
 # class extends from another object
-snippet ~clse "class C extends S {}"
+snippet clse "class C extends S {}"
 class ${1}extends ${2:Base} {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # class extends from another object with a constructor
-snippet ~clsec "class C extends E { constructor( o ) { super( o ) } }"
+snippet clsec "class C extends E { constructor( o ) { super( o ) } }"
 class ${1}extends ${2:Base} {
 	constructor( ${3:options = \{\}} ) {
 		super( ${4:options} );
@@ -58,7 +58,7 @@ class ${1}extends ${2:Base} {
 endsnippet
 
 # for
-snippet ~for "for( let i = 0, l = x.length; i < l; i += 1 ) { const item = x[ i ]; }"
+snippet for "for( let i = 0, l = x.length; i < l; i += 1 ) { const item = x[ i ]; }"
 for( let ${1:i} = 0, ${2:l} = ${3:list}.length; $1 < $2; $1 += 1 ) {
 	const ${4:item} = $3[ $1 ];
 	${0:${VISUAL}}
@@ -66,14 +66,14 @@ for( let ${1:i} = 0, ${2:l} = ${3:list}.length; $1 < $2; $1 += 1 ) {
 endsnippet
 
 # for...of
-snippet ~forof "for( const item of list ) {}"
+snippet forof "for( const item of list ) {}"
 for( ${1:const} ${2:item} of ${3:list} ) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # for...in
-snippet ~forin "for( let prop in obj ) { const item = obj[ prop ]; }"
+snippet forin "for( let prop in obj ) { const item = obj[ prop ]; }"
 for( ${1:const} ${2:prop} in ${3:obj} ) {
 	const ${4:item} = $3[ $2 ];
 	${0:${VISUAL}}
@@ -82,103 +82,103 @@ endsnippet
 # functions
 
 # arrow function
-snippet ~f "( arg1, arg2, ... ) => {}"
+snippet f "( arg1, arg2, ... ) => {}"
 (${1}) => {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # arrow function end with a )
-snippet ~f) "( arg1, arg2, ... ) => {} );"
+snippet f) "( arg1, arg2, ... ) => {} );"
 (${1}) => {
 	${0:${VISUAL}}
 } );
 endsnippet
 
 # arrow function end with a ;
-snippet ~f; "( arg1, arg2, ... ) => {} );"
+snippet f; "( arg1, arg2, ... ) => {} );"
 (${1}) => {
 	${0:${VISUAL}}
 };
 endsnippet
 
-snippet ~fun "function( arg1, arg2, ... ) {}"
+snippet fun "function( arg1, arg2, ... ) {}"
 function(${1}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
-snippet "~nfun?c?t?i?o?n?" "function fn( arg1, arg2, ... ) {}" r
+snippet "nfun?c?t?i?o?n?" "function fn( arg1, arg2, ... ) {}" r
 function ${1}(${2}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # async arrow function
-snippet ~af "async ( arg1, arg2, ... ) => {}"
+snippet af "async ( arg1, arg2, ... ) => {}"
 async (${1}) => {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # async method
-snippet ~am "async func() {}"
+snippet am "async func() {}"
 async ${1}(${2}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # static method
-snippet ~sm "static func() {}"
+snippet sm "static func() {}"
 static ${1}(${2}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # async anonymous function
-snippet ~afun "async function( arg1, arg2, ... ) {}"
+snippet afun "async function( arg1, arg2, ... ) {}"
 async function(${1}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # async named function
-snippet ~anfun "async function fn( arg1, arg2, ... ) {}"
+snippet anfun "async function fn( arg1, arg2, ... ) {}"
 async function ${1}(${2}) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # arrow function with only one argument
-snippet ~f? "x => {}"
+snippet f? "x => {}"
 ${1} => {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # arrow function with only one argument end with a )
-snippet ~f?) "x => {} );"
+snippet f?) "x => {} );"
 ${1} => {
 	${0:${VISUAL}}
 } );
 endsnippet
 
 # arrow function with only one argument end with a ;
-snippet ~f?; "x => {} );"
+snippet f?; "x => {} );"
 ${1} => {
 	${0:${VISUAL}}
 };
 endsnippet
 
 # async arrow function with only one argument
-snippet ~af? "async x => {}"
+snippet af? "async x => {}"
 async ${1} => {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # an iife
-snippet ~iife "( () => {} )()"
+snippet iife "( () => {} )()"
 ( () => {
 	${0:${VISUAL}}
 } )();
@@ -187,17 +187,17 @@ endsnippet
 # throw
 
 # throw an Error instance
-snippet ~tr "throw new Error( error message )"
+snippet tr "throw new Error( error message )"
 throw new Error( '${1:error message}' );
 endsnippet
 
 # throw an TypeError instance
-snippet ~ttr "throw new TypeError( error message )"
+snippet ttr "throw new TypeError( error message )"
 throw new TypeError( '${1:error message}' );
 endsnippet
 
 # try
-snippet ~try "try { ... } catch( e ) { ... }"
+snippet try "try { ... } catch( e ) { ... }"
 try {
 	${0:${VISUAL}}
 } catch( ${1:e} ) {
@@ -206,7 +206,7 @@ try {
 endsnippet
 
 # try catch statement with finally
-snippet ~tryf "try { ... } catch( e ) { ... } finally { ... }"
+snippet tryf "try { ... } catch( e ) { ... } finally { ... }"
 try {
 	${3:${VISUAL}}
 } catch( ${1:e} ) {
@@ -217,7 +217,7 @@ try {
 endsnippet
 
 # switch
-snippet ~switch
+snippet switch
 switch( ${1} ) {
 	case '${2}' :${3}
 		${5}
@@ -229,14 +229,14 @@ switch( ${1} ) {
 }
 endsnippet
 
-snippet ~case "case x : ... break;"
+snippet case "case x : ... break;"
 case '${1}' :
 	${0:${VISUAL}}
 	${2:break;}
 endsnippet
 
 # case with braces
-snippet ~case{ "case x : { ...break; }"
+snippet case{ "case x : { ...break; }"
 case '${1}' : {
 	${$0:${VISUAL}}
 	${2:break;}
@@ -244,26 +244,26 @@ case '${1}' : {
 endsnippet
 
 #symbol
-snippet "~symbo?l?" "const A_B_C = Symbol( 'a#b#c' )" r
+snippet "symbo?l?" "const A_B_C = Symbol( 'a#b#c' )" r
 const ${1} = Symbol( '${1/([A-Za-z])|(_)/(?1:\l$0)(?2:#)/g}' );
 endsnippet
 
 #symbol.for
-snippet "~symbo?l?.for" "const A_B_C = Symbol.for( 'a#b#c' )" r
+snippet "symbo?l?.for" "const A_B_C = Symbol.for( 'a#b#c' )" r
 const ${1} = Symbol.for( '${1/([A-Za-z])|(_)/(?1:\l$0)(?2:#)/g}' );
 endsnippet
 
 # if
 
 # if
-snippet ~if "if( conditions ) {}"
+snippet if "if( conditions ) {}"
 if( ${1} ) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # if...else
-snippet ~ifel "if ... else ..."
+snippet ifel "if ... else ..."
 if( ${1} ) {
 	${2}
 } else {
@@ -272,7 +272,7 @@ if( ${1} ) {
 endsnippet
 
 # if...elseif...
-snippet ~ifelif "if ... else if ..."
+snippet ifelif "if ... else if ..."
 if( ${1} ) {
 	${2}
 } else if( ${3} ) {
@@ -281,81 +281,81 @@ if( ${1} ) {
 endsnippet
 
 # if( ... ) break
-snippet ~ifb "if( conditions ) break;"
+snippet ifb "if( conditions ) break;"
 if( ${0} ) break;
 ${0:${VISUAL}}
 endsnippet
 
 # if( ... ) continue
-snippet ~ifc "if( conditions ) continue;"
+snippet ifc "if( conditions ) continue;"
 if( ${1} ) continue;
 ${0:${VISUAL}}
 endsnippet
 
 # if ( ...) return
-snippet ~ifr "if( conditions ) return;"
+snippet ifr "if( conditions ) return;"
 if( ${1} ) return${2:${VISUAL}};
 ${0:${VISUAL}}
 endsnippet
 
 # assignment
 
-snippet ~|| "x || ();"
+snippet || "x || ();"
 ${1} || ( $1 = ${2} );
 endsnippet
 
 # json
 
 # JSON.parse
-snippet ~jp "JSON.parse( object )"
+snippet jp "JSON.parse( object )"
 JSON.parse( ${0} );
 endsnippet
 
 # JSON.stringify
-snippet ~jstr "JSON.stringify( json )"
+snippet jstr "JSON.stringify( json )"
 JSON.stringify( ${0} );
 endsnippet
 
 # dom selector
 
 # document.querySelector( selector )
-snippet ~$ "document.querySelector( selectors )"
+snippet $ "document.querySelector( selectors )"
 ${0:document}.querySelector( '${1:selector}' );
 endsnippet
 
 # document.querySelectorAll( selector )
-snippet ~$$ "document.querySelectorAll( selectors )"
+snippet $$ "document.querySelectorAll( selectors )"
 ${0:document}.querySelectorAll( '${1:selector}' );
 endsnippet
 
 # document.getElementById( id )
-snippet ~$#
+snippet $#
 document.getElementById( '${0:id}' );
 endsnippet
 
 # console
-snippet ~csl "console.log( ...args )"
+snippet csl "console.log( ...args )"
 console.log( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~csw "console.warn( ...args )"
+snippet csw "console.warn( ...args )"
 console.warn( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~csd "console.debug( ...args )"
+snippet csd "console.debug( ...args )"
 console.debug( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~cse "console.error( ...args )"
+snippet cse "console.error( ...args )"
 console.error( ${0:${VISUAL}} );
 endsnippet
 
-snippet ~csi "console.info( ...args )"
+snippet csi "console.info( ...args )"
 console.info( ${0:${VISUAL}} );
 endsnippet
 
 # use strict
-snippet ~us "'use strict'"
+snippet us "'use strict'"
 'use strict';
 ${0:{VISUAL}}
 endsnippet
@@ -363,63 +363,63 @@ endsnippet
 # modules
 
 # import es6 module
-snippet ~im "import X from 'path';"
+snippet im "import X from 'path';"
 import ${1} from '${0}';
 endsnippet
 
-snippet ~imx "import {a,b} from 'path';"
+snippet imx "import {a,b} from 'path';"
 import { ${1} } from '${0}';
 endsnippet
 
 # import packages from @lvchengbin
-snippet ~imlcb "import x from '@lvchengbin/x';"
+snippet imlcb "import x from '@lvchengbin/x';"
 import ${1} from '@lvchengbin/${1/\w/\l$0/g}';
 endsnippet
 
 # import packages from current dir
-snippet ~imrel "import x from './x';"
+snippet imrel "import x from './x';"
 import ${1} from './${1/\w/\l$0/g}';
 endsnippet
 
 # import file from @lvchengbin/is
-snippet ~imlcbis "import isXX from '@lvchengbin/is/src/xx';"
+snippet imlcbis "import isXX from '@lvchengbin/is/src/xx';"
 import is${1} from '@lvchengbin/is/src/${1/\w/\l$0/g}';
 endsnippet
 
-snippet ~exd "export default x;"
+snippet exd "export default x;"
 export default ${0};
 endsnippet
 
-snippet ~mexi "module.exports.x = {};"
+snippet mexi "module.exports.x = {};"
 module.exports.${1} = ${0:${VISUAL}}
 endsnippet
 
-snippet ~mex "module.exports.x = {};"
+snippet mex "module.exports.x = {};"
 module.exports = ${0:${VISUAL}}
 endsnippet
 
 #require
 
 # require at the beginning of the line
-snippet "~re?q?" "const x = require( 'path' );" rb
+snippet "re?q?" "const x = require( 'path' );" rb
 const ${1} = require( '${1/\w/\l$0/g}${0:${VISUAL}}' );
 endsnippet
 
-snippet ~rrel "const x = require( './x' );"
+snippet rrel "const x = require( './x' );"
 const ${1} = require( './${1/\w/\l$0/g}${0:${VISUAL}}' );
 endsnippet
 
-snippet ~rlcb "const x = require( '@lvchengbin/x' );"
+snippet rlcb "const x = require( '@lvchengbin/x' );"
 const ${1} = require( '@lvchengbin/${1/\w/\l$0/g}' );
 endsnippet
 
 # Promise
 
-snippet ~then ".then( () => {} );" i
+snippet then ".then( () => {} );" i
 .then( ${1} => { ${0:${VISUAL}} } );
 
 # .then().catch()
-snippet ~thenc ".then( () => {} ).catch( e => console.log( e ) );" i
+snippet thenc ".then( () => {} ).catch( e => console.log( e ) );" i
 .then( ${1} => {
 	${0:${VISUAL}}
 } ).catch( e => {
@@ -428,19 +428,19 @@ snippet ~thenc ".then( () => {} ).catch( e => console.log( e ) );" i
 endsnippet
 
 # settimeout
-snippet ~sto "setTimeout(() => {}, delay);"
+snippet sto "setTimeout(() => {}, delay);"
 setTimeout( () => {
 	${0:${VISUAL}}
 }, ${1:0})
 endsnippet
 
 # call
-snippet ~call "func.call( this, ...args )"
+snippet call "func.call( this, ...args )"
 ${1}.call( ${2:this}, ${3:...args} );
 endsnippet
 
 # multiple lines comment
-snippet ~cmt "/** */"
+snippet cmt "/** */"
 /**
  * ${0:${VISUAL}}
  */
@@ -449,43 +449,43 @@ endsnippet
 # regexp
 
 # all the characters are numeric
-snippet ~reg.n "/^\d+$/" i
+snippet reg.n "/^\d+$/" i
 /^\d+$/
 endsnippet
 
 # all the characters are numeric
-snippet ~if.reg.n "/^\d+$/" i
+snippet if.reg.n "/^\d+$/" i
 if( /^\d+$/.test( ${1} ) ) {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # to test a string is filled all by numeric
-snippet ~reg.n.t "/^\d+$/" i
+snippet reg.n.t "/^\d+$/" i
 /^\d+$/.test( ${1} )
 endsnippet
 
 # lowercase string
-snippet ~reg.lc "/^[a-z]+$/"
+snippet reg.lc "/^[a-z]+$/"
 /^[a-z]+$/
 endsnippet
 
 # test lowercase string
-snippet ~reg.lc.t "/^[a-z]+$/"
+snippet reg.lc.t "/^[a-z]+$/"
 /^[a-z]+$/.t( ${1} )
 endsnippet
 
 # uppercase string
-snippet ~reg.lu "/^[A-Z]+$/"
+snippet reg.lu "/^[A-Z]+$/"
 /^[A-Z]+$/
 endsnippet
 
 # test uppercase string
-snippet ~reg.lu.t "/^[A-Z]+$/"
+snippet reg.lu.t "/^[A-Z]+$/"
 /^[A-Z]+$/.t( ${1} )
 endsnippet
 
 # path.resolve
-snippet ~pr "path.resolve( x, y )"
+snippet pr "path.resolve( x, y )"
 path.resolve( ${1}, ${2} )
 endsnippet

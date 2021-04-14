@@ -1,5 +1,5 @@
 # new Ynn 
-snippet ~ynn "new Ynn()"
+snippet ;;ynn "new Ynn()"
 new Ynn( {
 	root : __dirname,
 	debugging : ${1:false},
@@ -8,7 +8,7 @@ new Ynn( {
 endsnippet
 
 # Ynn Initialize
-snippet ~y.i "const Ynn = require( 'ynn' ); ... module.exports = app;"
+snippet ;;y.i "const Ynn = require( 'ynn' ); ... module.exports = app;"
 const Ynn = require( 'ynn' );
 
 const app = new Ynn( {
@@ -22,7 +22,7 @@ module.exports = app;
 endsnippet
 
 # ynn controller
-snippet ~y.c "class extends Ynn.Controller {};"
+snippet ;;y.c "class extends Ynn.Controller {};"
 const Ynn = require( 'ynn' );
 
 module.exports = class${1: }extends Ynn.Controller {
@@ -31,7 +31,7 @@ module.exports = class${1: }extends Ynn.Controller {
 endsnippet
 
 # ynn service
-snippet ~y.s "class extends Ynn.Service {};"
+snippet ;;y.s "class extends Ynn.Service {};"
 const Ynn = require( 'ynn' );
 
 module.exports = class${1: }extends Ynn.Service {
@@ -40,7 +40,7 @@ module.exports = class${1: }extends Ynn.Service {
 endsnippet
 
 # ynn action
-snippet ~y.a "indexAction() {}"
+snippet ;;y.a "indexAction() {}"
 ${1:index}Action() {
 	const { ctx } = this;
 	const { query } = ctx;
@@ -50,14 +50,14 @@ ${1:index}Action() {
 endsnippet
 
 # ynn action
-snippet ~y.aa "async indexAction() {}"
+snippet ;;y.aa "async indexAction() {}"
 async ${1:index}Action() {
 	${0:${VISUAL}}
 }
 endsnippet
 
 # ynn plugin
-snippet ~y.p "module.exports = ( app, options ) => { ... }"
+snippet ;;y.p "module.exports = ( app, options ) => { ... }"
 module.export = ( app, options = {} ) => {
 	const {
 		name = '${1:email}',
@@ -75,70 +75,70 @@ endsnippet
 # ynn console
 
 # this.console.log
-snippet ~y.cl "this.console.log( 'abc' );"
+snippet ;;y.cl "this.console.log( 'abc' );"
 this.console.log( ${1} );
 endsnippet
 
 # this.console.warn
-snippet ~y.cw "this.console.warn( 'abc' );"
+snippet ;;y.cw "this.console.warn( 'abc' );"
 this.console.warn( ${1} );
 endsnippet
 
 # this.console.debug
-snippet ~y.cd "this.console.debug( 'abc' );"
+snippet ;;y.cd "this.console.debug( 'abc' );"
 this.console.debug( ${1} );
 endsnippet
 
 # this.console.error
-snippet ~y.ce "this.console.error( 'abc' );"
+snippet ;;y.ce "this.console.error( 'abc' );"
 this.console.error( ${1} );
 endsnippet
 
 # this.console.info
-snippet ~y.ci "this.console.info( 'abc' );"
+snippet ;;y.ci "this.console.info( 'abc' );"
 this.console.info( ${1} );
 endsnippet
 
 # ynn logger
 
 # this.logger.log
-snippet "~y.ll?" "this.logger.log( 'abc' );" r
+snippet ";;y.ll?" "this.logger.log( 'abc' );" r
 this.logger.log( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.error
-snippet ~y.le "this.logger.error( 'abc' );"
+snippet ;;y.le "this.logger.error( 'abc' );"
 this.logger.error( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.warn
-snippet ~y.lw "this.logger.warn( 'abc' );"
+snippet ;;y.lw "this.logger.warn( 'abc' );"
 this.logger.warn( ${1}, ${2:\{\}} );
 endsnippet
 
 # this.logger.info
-snippet ~y.li "this.logger.info( 'abc' );"
+snippet ;;y.li "this.logger.info( 'abc' );"
 this.logger.info( ${1}, ${2:\{\}} );
 endsnippet
 
 # __ynn__.server
-snippet ~y._s "__ynn__.server" i
+snippet ;;y._s "__ynn__.server" i
 __ynn__.server
 endsnippet
 
 # ${__ynn__.server}
-snippet ~y.$_s "${__ynn__.server}" i
+snippet ;;y.$_s "${__ynn__.server}" i
 ${__ynn__.server}
 endsnippet
 
 # const ctx = this.ctx; const query = ctx.query;
-snippet ~y.query "const ctx = this.ctx; const query = ctx.query" i
+snippet ;;y.query "const ctx = this.ctx; const query = ctx.query" i
 const ctx = this.ctx;
 const query = ctx.query;
 endsnippet
 
 # const ctx = this.ctx; const body = ctx.body;
-snippet ~y.body "const ctx = this.ctx; const body = ctx.request.body" i
+snippet ;;y.body "const ctx = this.ctx; const body = ctx.request.body" i
 const ctx = this.ctx;
 const body = ctx.request.body;
 endsnippet
