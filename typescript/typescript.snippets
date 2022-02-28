@@ -23,6 +23,12 @@ class ${1}{
 }
 endsnippet
 
+snippet class "class C {}"
+class ${1}{
+	${0:${VISUAL}}
+}
+endsnippet
+
 # class with constructor
 snippet clsc "class C { constructor() {} }"
 class ${1}{
@@ -366,17 +372,12 @@ endsnippet
 # modules
 
 # import es6 module
-snippet im "import X from 'path';"
-import ${1} from '${0}';
+snippet "imp?o?r?t?" "import X from 'path';" rb
+import ${1} from '${1/\w/\l$0/g}${0:${VISUAL}}';
 endsnippet
 
 snippet imx "import {a,b} from 'path';"
 import { ${1} } from '${0}';
-endsnippet
-
-# import packages from @lvchengbin
-snippet imlcb "import x from '@lvchengbin/x';"
-import ${1} from '@lvchengbin/${1/\w/\l$0/g}';
 endsnippet
 
 # import packages from current dir
