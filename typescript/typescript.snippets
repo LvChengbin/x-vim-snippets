@@ -371,6 +371,10 @@ endsnippet
 
 # modules
 
+snippet "immui" "import COMPONENT from '@mui/material/COMPONENT'" r
+import ${1} from '@mui/material/$1${0:${VISUAL}}';
+endsnippet
+
 # import es6 module
 snippet "imp?o?r?t?" "import X from 'path';" rb
 import ${1} from '${1/\w/\l$0/g}${0:${VISUAL}}';

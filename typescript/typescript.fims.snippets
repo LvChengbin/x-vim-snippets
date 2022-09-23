@@ -1,0 +1,51 @@
+# Ynn service for FIMS.
+snippet fims.service
+
+endsnippet
+
+snippet fims.controller
+import { Controller, Put, Post, Get, Delete, Body, Param, NotFoundException } from '@ynn/http';
+import { Appid, PaginateResult } from '@fims/common';
+import { ${1} } from '../interfaces';
+import { ${1/\w+/\u$0/g}CreationData, ${1/\w+/\u$0/g}UpdateData } from '../dataclass';
+import { ${1/\w+/\u$0/g}Service } from '../services';
+
+@Controller( '/:appid/${1/\w+/\l$0/g}' )
+export class ${1/\w+/\u$0/g}Controller {
+    constructor( private service: ${1/\w+/\u$0/g}Service ) {}
+
+    @Post()
+    async create( @Appid() @Body() data: ${1/\w+/\u$0/g}CreationData ): Promise<{ id: string }> {
+        const id = await this.service.create( data );
+        return { id };
+    }
+
+    @Get()
+    async list( @Appid() appid: string ): Promise<PaginateResult<${1/\w+/\u$0/g}>> {
+        return this.service.list( appid );
+    }
+
+    @Get( ':id' )
+    async get( @Appid() appid: string, @Param( 'id' ) id: string ): Promise<${1/\w+/\u$0/g}> {
+        const ${1/\w+/\l$0/g} = await this.service.get( { appid, id } );
+        if( !${1/\w+/\l$0/g} ) throw new NotFoundException( \`${1/\w+/\l$0/g} ${id} not found\` );
+        return ${1/\w+/\l$0/g};
+    }
+
+    @Put( ':id' )
+    async update(
+        @Appid() appid: string,
+        @Param( 'id' ) id: string,
+        @Appid() @Param() @Body() data: ${1/\w+/\u$0/g}UpdateData
+    ): Promise<void> {
+        const ${1/\w+/\l$0/g} = await this.service.update( { appid, id }, data );
+        if( !${1/\w+/\l$0/g} ) throw new NotFoundException( \`${1/\w+/\l$0/g} ${id} not found\` );
+    }
+
+    @Delete( ':id' )
+    async delete( @Appid() appid: string, @Param( 'id' ) id: string ): Promise<void> {
+        const ${1/\w+/\l$0/g} = await this.service.delete( { appid, id } );
+        if( !${1/\w+/\l$0/g} ) throw new NotFoundException( \`${1/\w+/\l$0/g} ${id} not found\` );
+    }
+}
+endsnippet

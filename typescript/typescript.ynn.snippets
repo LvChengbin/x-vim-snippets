@@ -1,3 +1,41 @@
+# create a controller
+snippet ynn.co?n?t?r?o?l?l?e?r?
+import { Controller, Post, Get, Put, Delete, Body, Query, Param } from '@ynn/http';
+
+@Controller( ${1} )
+export class ${2}Controller {
+	constructor() {}
+
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ynn.c.crud
+import { Controller, Post, Get, Put, Delete, Body, Query, Param } from '@ynn/http';
+import {} from '../../interfaces';
+
+@Controller( ${1} )
+export class ${2}Controller {
+	constructor() {}
+
+	@Get( ':id' )
+	async get(): Promise<> {
+	}
+
+	@Post()
+	async create(): Promise<{ id: string }> {
+	}
+
+	@Delete( ':id' )
+	async delete(): Promise<void> {
+	}
+
+	@Put( ':id' )
+	async update(): Promise<void> {
+	}
+}
+endsnippet
+
 # new Ynn 
 snippet ;;ynn "new Ynn()"
 new Ynn( {
