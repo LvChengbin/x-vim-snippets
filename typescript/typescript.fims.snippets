@@ -1,8 +1,3 @@
-# Ynn service for FIMS.
-snippet fims.service
-
-endsnippet
-
 snippet fims.controller
 import { Controller, Put, Post, Get, Delete, Body, Param, NotFoundException } from '@ynn/http';
 import { Appid, PaginateResult } from '@fims/common';
@@ -47,5 +42,103 @@ export class ${1/\w+/\u$0/g}Controller {
         const ${1/\w+/\l$0/g} = await this.service.delete( { appid, id } );
         if( !${1/\w+/\l$0/g} ) throw new NotFoundException( \`${1/\w+/\l$0/g} ${id} not found\` );
     }
+}
+endsnippet
+
+snippet fims.client.controller
+import { Controller, Post, Get, Put, Delete } from '@ynn/http-client';
+import { PaginateResult } from '@fims/common/interfaces';
+import { ${1} } from '../../interfaces';
+
+export interface ${1/\w+/\u$0/g}Methods {
+    create: { id: string };
+    list: PaginateResult<${1/\w+/\u$0/g}>;
+    get: ${1/\w+/\u$0/g};
+    update: void;
+    delete: void;
+}
+
+@Controller( ':appid/${1/\w+/\l$0/g}' )
+export class ${1/\w+/\u$0/g}Controller {
+    @Post()
+    create(): void {}
+
+    @Get()
+    list(): void {}
+
+    @Get( ':id' )
+    get(): void {}
+
+    @Put( ':id' )
+    update(): void {}
+}
+endsnippet
+
+snippet fims.recoil.list
+import { selectorFamily } from 'recoil';
+import { PaginateResult } from '@fims/common';
+import { ${1} } from '@fims/sservice/interfaces';
+import { fims } from '@/admin/clients';
+
+export const ${1/\w+/\l$0/g}ListState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>> ( {
+	key : 'fims/${1/\w+/\l$0/g}/list',
+	get( options ) {
+		return async () => {
+			const { body } = await fims.${1/\w+/\l$0/g}.list( options );
+			return body;
+		};
+	}
+} );
+endsnippet
+
+snippet fims.recoil.search
+import { selectorFamily } from 'recoil';
+import { PaginateResult } from '@fims/common';
+import { ${1} } from '@fims/sservice/interfaces';
+import { fims } from '@/admin/clients';
+import { ${1/\w+/\l$0/g}ListState } from './${1/\w+/\l$0/g}-list.selector';
+
+export const ${1/\w+/\l$0/g}SearchState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>> ( {
+	key : 'fims/${1/\w+/\l$0/g}/list',
+	get( options: ${1/\w+/\u$0/g}SearchOptions ) {
+		return async () => {
+
+			if( !options.query ) {
+				return get( ${1/\w+/\l$0/g}ListState( options ) );
+			}
+
+			const { body } = await fims.${1/\w+/\l$0/g}.list( options );
+			return body;
+		};
+	}
+} );
+endsnippet
+
+snippet fims.hook.search
+import { useEffect } from 'react';
+import { useRecoilValue, useRecoilCallback, useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
+import { ${1}State, ${1/\w+/\l$0/g}SearchState } from '@/admin/recoil/${1/\w+/\l$0/g}';
+
+export function use${1/\w+/\u$0/g}Search( options ) {
+    const ${1/\w+/\l$0/g}s = useRecoilValue( ${1/\w+/\l$0/g}SearchState( options ) );
+    const save = useRecoilCallback( ( { set } ) => ( id, data ) => {
+        set( ${1/\w+/\l$0/g}State( id ), data );
+    } );
+
+    useEffect( () => {
+        ${1/\w+/\l$0/g}s?.list.forEach( item => { save( item.id, item ) } );
+    }, [ ${1/\w+/\l$0/g}s ] );
+
+    const refresh = useRecoilRefresher( ${1/\w+/\l$0/g}SearchState( options ) );
+    return { ${1/\w+/\l$0/g}s, refresh };
+}
+endsnippet
+
+snippet fims.hook.refreshsearch
+import { useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
+import { ${1}SearchState } from '@/admin/recoil/${1/\w+/\l$0/g}';
+
+export function useRefresh${1/\w+/\u$0/g}Search( options ) {
+    return useRecoilRefresher( ${1/\w+/\l$0/g}SearchState( options ) );
 }
 endsnippet
