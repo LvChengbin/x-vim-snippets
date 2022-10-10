@@ -45,6 +45,27 @@ export class ${1/\w+/\u$0/g}Controller {
 }
 endsnippet
 
+snippet fims.model
+import { Injectable } from '@ynn/injection';
+import { MongoService, MongoModel } from '@fims/common';
+import { ${1} } from '../interfaces';
+
+@Injectable()
+export class ${1/\w+/\u$0/g}Model extends MongoModel<${1/\w+/\u$0/g}> {
+	static schema = MongoService.Schema( {
+		id : { type : String, unique : true, required : true },
+		${0:${VISUAL}}
+	} );
+
+	static collection = 'fims.${1/\w+/\l$0/g}';
+	static model = '${1/\w+/\u$0/g}';
+
+	constructor( service: MongoService ) {
+		super( service );
+	}
+}
+endsnippet
+
 snippet fims.client.controller
 import { Controller, Post, Get, Put, Delete } from '@ynn/http-client';
 import { PaginateResult } from '@fims/common/interfaces';
@@ -74,13 +95,34 @@ export class ${1/\w+/\u$0/g}Controller {
 }
 endsnippet
 
+snippet fims.recoil.atom
+import { atomFamily, selectorFamily } from 'recoil';
+import { ${1} } from '@fims/service/interfaces';
+import { fims } from '@/admin/clients';
+
+const default${1/\w+/\u$0/g} = {
+};
+
+export const articleState = atomFamily<${1/\w+/\u$0/g}>( {
+	key : 'fims/${1/\w+/\l$0/g}',
+	default : selectorFamily( {
+		key : '#fims/${1/\w+/\l$0/g}',
+		get : id => async (): Promise<${1/\w+/\u$0/g} | null> => {
+			if( !id ) return default${1/\w+/\u$0/g};
+			const { body } = await fims.${1/\w+/\l$0/g}.get( { id } );
+			return body;
+		}
+	} )
+} );
+endsnippet
+
 snippet fims.recoil.list
 import { selectorFamily } from 'recoil';
 import { PaginateResult } from '@fims/common';
 import { ${1} } from '@fims/sservice/interfaces';
 import { fims } from '@/admin/clients';
 
-export const ${1/\w+/\l$0/g}ListState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>> ( {
+export const ${1/\w+/\l$0/g}ListState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>>( {
 	key : 'fims/${1/\w+/\l$0/g}/list',
 	get( options ) {
 		return async () => {
@@ -98,16 +140,16 @@ import { ${1} } from '@fims/sservice/interfaces';
 import { fims } from '@/admin/clients';
 import { ${1/\w+/\l$0/g}ListState } from './${1/\w+/\l$0/g}-list.selector';
 
-export const ${1/\w+/\l$0/g}SearchState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>> ( {
-	key : 'fims/${1/\w+/\l$0/g}/list',
+export const ${1/\w+/\l$0/g}SearchState = selectorFamily<PaginateResult<${1/\w+/\u$0/g}>>( {
+	key : 'fims/${1/\w+/\l$0/g}/search',
 	get( options: ${1/\w+/\u$0/g}SearchOptions ) {
-		return async () => {
+		return async ( { get } ): Promise<PaginateResult<${1/\w+/\u$0/g}>> => {
 
 			if( !options.query ) {
 				return get( ${1/\w+/\l$0/g}ListState( options ) );
 			}
 
-			const { body } = await fims.${1/\w+/\l$0/g}.list( options );
+			const { body } = await fims.${1/\w+/\l$0/g}.search( options );
 			return body;
 		};
 	}
@@ -134,11 +176,55 @@ export function use${1/\w+/\u$0/g}Search( options ) {
 }
 endsnippet
 
+snippet fims.hook.refreshdata
+import { useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
+import { ${1}State } from '@/admin/recoil/${1/\w+/\l$0/g}';
+
+export function useRefresh${1/\w+/\u$0/g}( id?: string | undefined ) {
+    return useRecoilRefresher( ${1/\w+/\l$0/g}State( id ) );
+}
+endsnippet
+
 snippet fims.hook.refreshsearch
 import { useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
 import { ${1}SearchState } from '@/admin/recoil/${1/\w+/\l$0/g}';
+import { ${1/\w+/\u$0/g}SearchOptions } from '@fims/service/interfaces';
 
 export function useRefresh${1/\w+/\u$0/g}Search( options ) {
     return useRecoilRefresher( ${1/\w+/\l$0/g}SearchState( options ) );
+}
+endsnippet
+
+snippet fims.hook.data
+import { useRecoilValue, useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
+import { ${1}State } from '@/admin/recoil/${1/\w+/\l$0/g}';
+
+export function use${1/\w+/\u$0/g}( id?: string | undefined ) {
+	const ${1/\w+/\l$0/g} = useRecoilValue( ${1/\w+/\l$0/g}State( id ) );
+	const refresh = useRecoilRefresher( ${1/\w+/\l$0/g}State( id ) );
+
+	return { ${1/\w+/\l$0/g}, refresh };
+}
+endsnippet
+
+snippet fims.hook.freshdata
+import { useEffect } from 'react';
+import { use${1} } from './use${1/\w+/\u$0/g}';
+
+export function useFresh${1/\w+/\u$0/g}( id?: string | undefined ) {
+	const { refresh, ${1/\w+/\l$0/g} } = use${1/\w+/\u$0/g}( id );
+	useEffect( () => { refresh() }, [] );
+	return { refresh, ${1/\w+/\l$0/g} };
+}
+endsnippet
+
+snippet fims.hook.freshsearch
+import { useEffect } from 'react';
+import { use${1}Search } from './use${1/\w+/\u$0/g}Search';
+
+export function useFresh${1/\w+/\u$0/g}Search( options ) {
+	const { refresh, ${1/\w+/\l$0/g}s } = use${1/\w+/\u$0/g}Search( options );
+	useEffect( () => { refresh() }, [] );
+	return { refresh, ${1/\w+/\l$0/g}s };
 }
 endsnippet
