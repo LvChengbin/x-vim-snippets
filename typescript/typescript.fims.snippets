@@ -1,3 +1,49 @@
+snippet fims.service
+import { Injectable } from '@ynn/injection';
+import { IdallocService, FimsGeneralIndex, PaginateResult } from '@fims/common';
+import { ${1}, ${1/\w+/\u$0/g}Creation, ${1/\w+/\u$0/g}Update } from '../interfaces';
+import { ${1/\w+/\u$0/g}Model } from '../models';
+import { ${1/\w+/\u$0/g}SearchService } from './${1/\w+/\l$0/g}-search.service';
+
+@Injectable()
+export class ${1/\w+/\u$0/g}Service {
+	constructor(
+		private model: ${1/\w+/\u$0/g}Model,
+		private idalloc: IdallocService,
+		private ${1/\w+/\l$0/g}SearchService: ${1/\w+/\u$0/g}SearchService
+	) {}
+	${0:${VISUAL}}
+	async searchIndex( data: ${1/\w+/\u$0/g} | null ): Promise<void> {
+		if( data ) await this.${1/\w+/\u$0/g}SearchService.create( data );
+	}
+
+	async get( condition: FimsGeneralIndex ): Promsie<${1/\w+/\u$0/g} | null> {
+		return this.model.get( condition );
+	}
+
+	async create( params: ${1/\w+/\u$0/g}Creation ): Promise<string> {
+		const id = await this.idalloc.id();
+		const data = await this.model.insert( { ...params, id } );
+		await this.searchIndex( data );
+		return id;
+	}
+
+	async update( condition: FimsGeneralIndex, data: ${1/\w+/\u$0/g}Update ): Promise<${1/\w+/\u$0/g} | null> {
+		const ${1/\w+/\l$0/g} = await this.model.update( condition, data );
+		await this.searchIndex( ${1/\w+/\l$0/g} );
+		return tag;
+	}
+
+	async list( appid: string ): Promise<PaginateResult<${1/\w+/\u$0/g}>> {
+		return this.model.paginate( { appid }, { count : true } );
+	}
+
+	async delete( condition: FimsGeneralIndex ): Promise<${1/\w+/\u$0/g} | null> {
+		return this.model.delete( condition );
+	}
+}
+endsnippet
+
 snippet fims.controller
 import { Controller, Put, Post, Get, Delete, Body, Param, NotFoundException } from '@ynn/http';
 import { Appid, PaginateResult } from '@fims/common';
@@ -62,6 +108,60 @@ export class ${1/\w+/\u$0/g}Model extends MongoModel<${1/\w+/\u$0/g}> {
 
 	constructor( service: MongoService ) {
 		super( service );
+	}
+}
+endsnippet
+
+snippet fims.searchmodel
+import { Client, estypes } from '@elastic/elasticsearch';
+import { Injectable } from '@ynn/injection';
+import { ElasticSearchService } from '@fims/common';
+import { ${1} } from '../interfaces';
+
+export const ${1/\w+/\l$0/g}SearchIndexMapping = {
+	properties : {
+		id : { type : 'keyword' },
+		appid : { type : 'keyword' }
+	}
+};
+
+@Injectable()
+export class ${1/\w+/\u$0/g}SearchModel {
+	client: Client;
+	index = 'fims-${1/\w+/\l$0/g}';
+
+	constructor( private elasticsearch: ElasticSearchService ) {
+		this.client = elasticsearch.client;
+		this.init();
+	}
+
+	async init(): Promise<void> {
+		const { index, client } = this;
+
+		if( !await client.indices.exists( { index } ) ) {
+			await client.indices.create( {
+				index,
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				mappings : ${1/\w+/\l$0/g}SearchIndexMapping as any
+			} );
+		}
+	}
+
+	async create( ${1/\w+/\l$0/g}: ${1/\w+/\u$0/g} ): Promise<void> {
+		await this.client.index( {
+			index : this.index,
+			id : ${1/\w+/\l$0/g}.id,
+			document : ${1/\w+/\l$0/g}
+		} );
+	}
+
+	async search( body?: object ): Promise<estypes.SearchHitsMetadata<${1/\w+/\u$0/g}>> {
+		const options = body
+			? { index : this.index, ...body }
+			: { index : this.index };
+
+		const result = await this.client.search<${1/\w+/\u$0/g}>( options );
+		return result.hits;
 	}
 }
 endsnippet
@@ -226,5 +326,30 @@ export function useFresh${1/\w+/\u$0/g}Search( options ) {
 	const { refresh, ${1/\w+/\l$0/g}s } = use${1/\w+/\u$0/g}Search( options );
 	useEffect( () => { refresh() }, [] );
 	return { refresh, ${1/\w+/\l$0/g}s };
+}
+endsnippet
+
+snippet fims.hook.update
+import { useRecoilCallback } from 'recoil';
+import { useAsyncFn } from 'react-use';
+import { ${1/\w+/\u$0/g}Update } from '@fims/service/interfaces';
+import { fims } from '@/admin/clients';
+import { ${1/\w+/\l$0/g}State } from '@/admin/recoil/${1/\w+/\l$0/g}';
+
+export function useUpdate${1/\w+/\u$0/g}( id?: string | undefined ) {
+	const save = useRecoilCallback( ( { set } ) => ( id, data ) => {
+		set( ${1/\w+/\l$0/g}State( id ), ( ${1/\w+/\l$0/g} ) => {
+			return { ...${1/\w+/\l$0/g}, ...data };
+		} );
+	} );
+
+	const [ update${1/\w+/\u$0/g}State, update${1/\w+/\u$0/g} ] = useAsyncFn(
+		async ( data: ${1/\w+/\u$0/g}Update ): Promise<void> => {
+			save( data.id ?? id, data );
+			await fims.${1/\w+/\l$0/g}.update( { id, ...data } );
+		}
+	);
+
+	return { update${1/\w+/\u$0/g}State, update${1/\w+/\u$0/g} };
 }
 endsnippet
