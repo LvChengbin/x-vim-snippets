@@ -200,7 +200,8 @@ import { atomFamily, selectorFamily } from 'recoil';
 import { ${1} } from '@fims/service/interfaces';
 import { fims } from '@/admin/clients';
 
-const default${1/\w+/\u$0/g} = {
+const defaults = {
+	${0:${VISUAL}}
 };
 
 export const articleState = atomFamily<${1/\w+/\u$0/g}>( {
@@ -208,7 +209,7 @@ export const articleState = atomFamily<${1/\w+/\u$0/g}>( {
 	default : selectorFamily( {
 		key : '#fims/${1/\w+/\l$0/g}',
 		get : id => async (): Promise<${1/\w+/\u$0/g} | null> => {
-			if( !id ) return default${1/\w+/\u$0/g};
+			if( !id ) return defaults;
 			const { body } = await fims.${1/\w+/\l$0/g}.get( { id } );
 			return body;
 		}
@@ -254,6 +255,23 @@ export const ${1/\w+/\l$0/g}SearchState = selectorFamily<PaginateResult<${1/\w+/
 		};
 	}
 } );
+endsnippet
+
+snippet fims.hook.create
+import { useAsyncFn } from 'react-use';
+import { ${1}Creation } from '@fims/service/interfaces';
+import { fims } from '@/admin/clients';
+
+export function useCreate${1/\w+/\u$0/g}() {
+	const [ create${1/\w+/\u$0/g}State, create${1/\w+/\u$0/g} ] = useAsyncFn(
+		async ( data: ${1/\w+/\u$0/g}Creation ): Promise<{ id: string }> => {
+			const { body } = fims.${1/\w+/\l$0/g}.create( data );
+			return body;
+		}
+	);
+
+	return { create${1/\w+/\u$0/g}State, create${1/\w+/\u$0/g} };
+}
 endsnippet
 
 snippet fims.hook.search
@@ -308,23 +326,23 @@ export function use${1/\w+/\u$0/g}( id?: string | undefined ) {
 endsnippet
 
 snippet fims.hook.freshdata
-import { useEffect } from 'react';
+import { useRefresh } from '../useRefresh';
 import { use${1} } from './use${1/\w+/\u$0/g}';
 
 export function useFresh${1/\w+/\u$0/g}( id?: string | undefined ) {
 	const { refresh, ${1/\w+/\l$0/g} } = use${1/\w+/\u$0/g}( id );
-	useEffect( () => { refresh() }, [] );
+	useRefresh( refresh );
 	return { refresh, ${1/\w+/\l$0/g} };
 }
 endsnippet
 
 snippet fims.hook.freshsearch
-import { useEffect } from 'react';
+import { useRefresh } from '../useRefresh';
 import { use${1}Search } from './use${1/\w+/\u$0/g}Search';
 
 export function useFresh${1/\w+/\u$0/g}Search( options ) {
 	const { refresh, ${1/\w+/\l$0/g}s } = use${1/\w+/\u$0/g}Search( options );
-	useEffect( () => { refresh() }, [] );
+	useRefresh( refresh );
 	return { refresh, ${1/\w+/\l$0/g}s };
 }
 endsnippet
