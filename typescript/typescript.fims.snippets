@@ -195,7 +195,7 @@ export class ${1/\w+/\u$0/g}Controller {
 }
 endsnippet
 
-snippet fims.recoil.atom
+snippet fims.recoil.data
 import { atomFamily, selectorFamily } from 'recoil';
 import { ${1} } from '@fims/service/interfaces';
 import { fims } from '@/admin/clients';
@@ -204,7 +204,7 @@ const defaults = {
 	${0:${VISUAL}}
 };
 
-export const articleState = atomFamily<${1/\w+/\u$0/g}>( {
+export const ${1/\w+/\l$0/g}State = atomFamily<${1/\w+/\u$0/g}>( {
 	key : 'fims/${1/\w+/\l$0/g}',
 	default : selectorFamily( {
 		key : '#fims/${1/\w+/\l$0/g}',
@@ -246,7 +246,7 @@ export const ${1/\w+/\l$0/g}SearchState = selectorFamily<PaginateResult<${1/\w+/
 	get( options: ${1/\w+/\u$0/g}SearchOptions ) {
 		return async ( { get } ): Promise<PaginateResult<${1/\w+/\u$0/g}>> => {
 
-			if( !options.query ) {
+			if( !options?.query ) {
 				return get( ${1/\w+/\l$0/g}ListState( options ) );
 			}
 
@@ -275,22 +275,25 @@ export function useCreate${1/\w+/\u$0/g}() {
 endsnippet
 
 snippet fims.hook.search
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilValue, useRecoilCallback, useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
 import { ${1}State, ${1/\w+/\l$0/g}SearchState } from '@/admin/recoil/${1/\w+/\l$0/g}';
 
 export function use${1/\w+/\u$0/g}Search( options ) {
-    const ${1/\w+/\l$0/g}s = useRecoilValue( ${1/\w+/\l$0/g}SearchState( options ) );
+	const [ safe, setSafe ] = useState( false );
+	const recoilValue = ${1/\w+/\l$0/g}SearchState( options );
+    const ${1/\w+/\l$0/g}s = useRecoilValue( recoilValue );
     const save = useRecoilCallback( ( { set } ) => ( id, data ) => {
         set( ${1/\w+/\l$0/g}State( id ), data );
     } );
 
     useEffect( () => {
         ${1/\w+/\l$0/g}s?.list.forEach( item => { save( item.id, item ) } );
+		setSafe( true );
     }, [ ${1/\w+/\l$0/g}s ] );
 
-    const refresh = useRecoilRefresher( ${1/\w+/\l$0/g}SearchState( options ) );
-    return { ${1/\w+/\l$0/g}s, refresh };
+    const refresh = useRecoilRefresher( recoilValue );
+    return { ${1/\w+/\l$0/g}s, refresh, safe, recoilValue };
 }
 endsnippet
 
@@ -308,7 +311,7 @@ import { useRecoilRefresher_UNSTABLE as useRecoilRefresher } from 'recoil';
 import { ${1}SearchState } from '@/admin/recoil/${1/\w+/\l$0/g}';
 import { ${1/\w+/\u$0/g}SearchOptions } from '@fims/service/interfaces';
 
-export function useRefresh${1/\w+/\u$0/g}Search( options ) {
+export function useRefresh${1/\w+/\u$0/g}Search( options: ${1/\w+/\u$0/g}SearchOptions ) {
     return useRecoilRefresher( ${1/\w+/\l$0/g}SearchState( options ) );
 }
 endsnippet
@@ -337,20 +340,20 @@ export function useFresh${1/\w+/\u$0/g}( id?: string | undefined ) {
 endsnippet
 
 snippet fims.hook.freshsearch
-import { useRefresh } from '../useRefresh';
+import { useRefresh } from '@/common/hooks';
 import { use${1}Search } from './use${1/\w+/\u$0/g}Search';
 
 export function useFresh${1/\w+/\u$0/g}Search( options ) {
-	const { refresh, ${1/\w+/\l$0/g}s } = use${1/\w+/\u$0/g}Search( options );
-	useRefresh( refresh );
-	return { refresh, ${1/\w+/\l$0/g}s };
+	const { refresh, ${1/\w+/\l$0/g}s, safe, recoilValue } = use${1/\w+/\u$0/g}Search( options );
+	useRefresh( recoilValue.key, refresh );
+	return { refresh, ${1/\w+/\l$0/g}s, safe };
 }
 endsnippet
 
 snippet fims.hook.update
 import { useRecoilCallback } from 'recoil';
 import { useAsyncFn } from 'react-use';
-import { ${1/\w+/\u$0/g}Update } from '@fims/service/interfaces';
+import { ${1}Update } from '@fims/service/interfaces';
 import { fims } from '@/admin/clients';
 import { ${1/\w+/\l$0/g}State } from '@/admin/recoil/${1/\w+/\l$0/g}';
 
@@ -370,4 +373,59 @@ export function useUpdate${1/\w+/\u$0/g}( id?: string | undefined ) {
 
 	return { update${1/\w+/\u$0/g}State, update${1/\w+/\u$0/g} };
 }
+endsnippet
+
+snippet fims.react.table "create a <Table /> component bases on @/common/components/Table"
+import React from 'react';
+import clsx from 'clsx';
+import msx from '@nextseason/msx';
+import { ${1} } from '@fims/service/interfaces';
+import T, { TableProps as TProps } from '@/common/components/Table';
+import Actions from '../Actions';
+import columnMap from './columns';
+
+export type TableProps = TProps<${1/\w+/\u$0/g}>;
+
+const defaultColumns = [
+	${0:${VISUAL}}
+] as const satisfies ( keyof typeof columnMap )[];
+
+export default function Table( props: TableProps ): JSX.Element {
+
+	const { sx, className, ...rest } = props;
+
+	return (
+		<T<${1/\w+/\u$0/g}>
+			className={clsx( 'Fims${1/\w+/\u$0/g}Table-root', className )}
+			sx={msx( sx )}
+			defaultColumns={defaultColumns}
+			columnMap={columnMap}
+			actions={( { row } ) => <Actions id={row.original.id} />}
+			{...rest}
+		/>
+	);
+}
+endsnippet
+
+snippet fims.react.tablecell "create a table cell component structure"
+import React from 'react';
+import { ${1} } from '@fims/service/interfaces';
+import { CellProps } from '@/common/components/Table';
+
+export default function ${2}( props: CellProps<${1/\w+/\u$0/g}> ): JSX.Element {
+	const { row } = props;
+	return (
+		${0:${VISUAL}}
+	);
+}
+endsnippet
+
+snippet exc
+export const ${1} = _$1;
+${0:${VISUAL}}
+endsnippet
+
+snippet ext
+export type ${1} = _$1;
+${0:${VISUAL}}
 endsnippet

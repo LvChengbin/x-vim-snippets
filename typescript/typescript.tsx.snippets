@@ -32,9 +32,10 @@ import React from 'react';
 import clsx from 'clsx';
 import msx from '@nextseason/msx';
 import ${1:Box}, { $1Props } from '@mui/material/$1';
+import { Override } from '@common/typings';
 
-export interface ${2}Props extends $1Props {
-}
+export type ${2}Props = Override<$1Props, {
+}>;
 
 export default function $2( props: $2Props ): JSX.Element {
 
