@@ -400,10 +400,57 @@ export default function Table( props: TableProps ): JSX.Element {
 			sx={msx( sx )}
 			defaultColumns={defaultColumns}
 			columnMap={columnMap}
-			actions={( { row } ) => <Actions id={row.original.id} />}
+			Actions={Actions}
 			{...rest}
 		/>
 	);
+}
+endsnippet
+
+snippet fims.react.actions
+import React from 'react';
+import clsx from 'clsx';
+import msx from '@nextseason/msx';
+import { Override } from '@common/typings';
+import Button from '@/common/components/Button';
+import { useNavigate, useDelete${1} } from '@/fims/hooks';
+
+export type ActionType =
+    | 'edit'
+    | 'delete';
+
+export type ActionsProps = Override<Button.ActionProps, {
+    id: string;
+    actions?: ActionType[];
+	onActionFinished?: ( action: string, id: string ) => void;
+}>;
+
+export default function Actions( props: ActionsProps ): JSX.Element {
+
+    const { sx, className, id, actions, onActionFinished, ...rest } = props;
+    const { navigate } = useNavigate();
+    const { delete${1/\w+/\u$0/g}, delete${1/\w+/\u$0/g}State } = useDelete${1/\w+/\u$0/g}();
+
+	const handleAction = async ( action: string ): Promise<void> => {
+		switch( action ) {
+			case 'edit' :
+				await delete${1/\w+/\u$0/g}( id );
+				break;
+			case 'delete' :
+				break;
+		}
+		onActionFinished?.( action, id );
+	};
+
+    return (
+        <Button.Action className={clsx( className )} sx={msx( sx )}
+            loading={delete${1/\w+/\u$0/g}State.loading}
+            actions={actions ?? [ 'edit', 'delete' ]}
+			onAction={handleAction}
+            ActionProps={{ edit : { text : '查看' } }}
+            {...rest}
+        />
+    );
 }
 endsnippet
 
@@ -420,6 +467,14 @@ export default function ${2}( props: CellProps<${1/\w+/\u$0/g}> ): JSX.Element {
 }
 endsnippet
 
+snippet "fims.imfc" "import component from '@/fims/component/*'" r
+import ${1} from '@/fims/components/$1${0:${VISUAL}}';
+endsnippet
+
+snippet "fims.imcc" "import component from '@/common/component/*'" r
+import ${1} from '@/common/components/$1${0:${VISUAL}}';
+endsnippet
+
 snippet exc
 export const ${1} = _$1;
 ${0:${VISUAL}}
@@ -428,4 +483,189 @@ endsnippet
 snippet ext
 export type ${1} = _$1;
 ${0:${VISUAL}}
+endsnippet
+
+snippet createsearchmodel
+import { PaginateResult } from '@ums/library/interfaces';
+import { createSearchModel } from '@ums/reversion';
+import { ${1}, ${2} } from '@${3}/common/interfaces';
+import { $3 } from '@/client';
+
+export const use$1SearchModel = createSearchModel<$1, $2>( {
+	requests : {
+		fetch : async ( options: $2 ): Promise<PaginateResult<$1>> => {
+			const { body } = await $3.${1/\w+/\l$0/g}.search( options );
+			return body;${0:${VISUAL}}
+		}
+	}
+} );
+endsnippet
+
+snippet react.c "create a react function component"
+import React from 'react';
+import clsx from 'clsx';
+import { msx } from '@nextseason/msx';
+import ${1:Box}, { $1Props } from '@mui/joy/$1';
+import { Override } from '@common/typings';
+
+export type ${2}Props = Override<$1Props, {
+}>;
+
+export default function $2( props: $2Props ): JSX.Element {
+
+	const { sx, className, ...rest } = props;
+
+	return (
+		<$1 className={clsx( className )} sx={msx( sx )} {...rest}>
+			${0:${VISUAL}}
+		</$1>
+	);
+}
+endsnippet
+
+snippet react.f "create a react forwardRef component"
+import React from 'react';
+import clsx from 'clsx';
+import { msx } from '@nextseason/msx';
+import ${1:Box}, { $1Props } from '@mui/joy/$1';
+import { Override } from '@common/typings';
+
+export type ${2}Props = Override<$1Props, {
+}>;
+
+export default React.forwardRef(
+	function $2( props: $2Props, ref: React.ForwardedRef<HTMLElement> ): JSX.Element {
+		const { sx, className, ...rest } = props;
+
+		return (
+			<$1 className={clsx( className )}
+				sx={msx( sx )}
+				ref={ref}
+				{...rest}
+			>
+				${0:${VISUAL}}
+			</$1>
+		);
+	}
+);
+endsnippet
+
+snippet react.h.us "const [ x, setX ] = React.useState( v )"
+const [ ${1}, set${1/\w+/\u$0/g} ] = React.useState( ${2:null} );
+endsnippet
+
+snippet react.h.ur "const xRef = React.useRef()"
+const ${1} = React.useRef(${2});
+endsnippet
+
+snippet react.h.ue "React.useEffect( () => {} );"
+React.useEffect( () => {	
+	${0:${VISUAL}}
+}, [${1}] );
+endsnippet
+
+snippet tableview
+import React, { useEffect } from 'react';
+import clsx from 'clsx';
+import { msx } from '@nextseason/msx';
+import { useSearchParams } from 'react-router-dom';
+import Sheet, { SheetProps } from '@mui/joy/Sheet';
+import DataTable from '@nextseason/uniui/DataTable';
+import { Override } from '@common/typings';
+import { PaginateType } from '@ums/library/enums';
+import { ${1} } from '@/models';
+import { columns } from './columns';
+
+export type TableViewProps = Override<SheetProps, {
+	${2}
+}>;
+
+export default function TableView( props: TableViewProps ): JSX.Element {
+
+    const { sx, className,${3} ...rest } = props;
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    const pn = parseInt( searchParams.get( 'pn' ) || '1' );
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    const rn = parseInt( searchParams.get( 'rn' ) || '20' );
+    const model = $1();
+
+    const handlePaginationChange = ( { pn, rn } ): void => {
+        setSearchParams( searchParams => {
+            searchParams.set( 'pn', pn );
+            searchParams.set( 'rn', rn );
+            return searchParams;
+        } );
+    };
+
+    useEffect( () => {
+        model.fetch( {
+            pn, rn,$3
+            pt : PaginateType.PAGINATION
+        } );
+    }, [ $3${0:${VISUAL}}pn, rn ] );
+
+    return (
+        <Sheet className={clsx( className )} sx={msx( sx )} {...rest}>
+            <DataTable
+                rows={model.data?.list ?? []}
+                columns={columns}
+                loading={model.state.loading}
+                rowCount={model.data?.total ?? 0}
+                pagination={{ pn, rn }}
+                onPaginationChange={handlePaginationChange}
+            />
+        </Sheet>
+    );
+}
+endsnippet
+
+snippet "tc" "add a table column" rb
+import React from 'react';
+import { GridColDef } from '@nextseason/uniui/DataTable';
+
+export const columns: GridColDef[] = [
+	${0:${VISUAL}}
+];
+endsnippet
+
+
+snippet "tc.item" "add a table column" rb
+{
+	field : '${1}',
+	type : '${4:string}',
+	headerName : '${2}',
+	sortable : ${3:false},
+	renderCell : ( { row } ) => (
+		${0:${VISUAL}}
+	)
+}
+endsnippet
+
+snippet "tc.time" "add a table column with the data type time" rb
+{
+	field : '${1:createdAt}',
+	type : '${4:dateTime}',
+	headerName : '${2:创建时间}',
+	sortable : ${3:true},
+	minWidth : 150,
+	valueGetter : value => value && new Date( value ),
+	renderCell : ( { value } ) => (
+		<Center inline>
+			<Time value={value} level="body-sm" />
+		</Center>
+	)
+}${0:${VISUAL}}
+endsnippet
+
+snippet "tc.actions?" "add a table column with the data type actions" rb
+{
+	field : '${1:operations}',
+	type : 'actions',
+	renderCell : ( { row } ) => (
+		<Row s1 inline width="auto">
+			${0:${VISUAL}}
+		</Row>
+	)
+}
 endsnippet

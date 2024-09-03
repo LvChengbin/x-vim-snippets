@@ -180,3 +180,14 @@ snippet ;;y.body "const ctx = this.ctx; const body = ctx.request.body" i
 const ctx = this.ctx;
 const body = ctx.request.body;
 endsnippet
+
+# ynn dataclass
+snippet ynn.dataclass
+import { Dataclass, Property } from '@ynn/core';
+
+@Dataclass()
+export class ${1}Data {
+	@Property()
+	declare ${0:${VISUAL}}
+}
+endsnippet
