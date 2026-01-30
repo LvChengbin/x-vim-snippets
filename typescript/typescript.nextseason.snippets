@@ -390,7 +390,7 @@ const defaultColumns = [
 	${0:${VISUAL}}
 ] as const satisfies ( keyof typeof columnMap )[];
 
-export default function Table( props: TableProps ): JSX.Element {
+export default function Table( props: TableProps ): React.JSX.Element {
 
 	const { sx, className, ...rest } = props;
 
@@ -411,7 +411,7 @@ snippet fims.react.actions
 import React from 'react';
 import clsx from 'clsx';
 import msx from '@nextseason/msx';
-import { Override } from '@common/typings';
+import type { Merge } from '@nextseason/utility-types';
 import Button from '@/common/components/Button';
 import { useNavigate, useDelete${1} } from '@/fims/hooks';
 
@@ -419,13 +419,13 @@ export type ActionType =
     | 'edit'
     | 'delete';
 
-export type ActionsProps = Override<Button.ActionProps, {
+export type ActionsProps = Merge<Button.ActionProps, {
     id: string;
     actions?: ActionType[];
 	onActionFinished?: ( action: string, id: string ) => void;
 }>;
 
-export default function Actions( props: ActionsProps ): JSX.Element {
+export default function Actions( props: ActionsProps ): React.JSX.Element {
 
     const { sx, className, id, actions, onActionFinished, ...rest } = props;
     const { navigate } = useNavigate();
@@ -459,7 +459,7 @@ import React from 'react';
 import { ${1} } from '@fims/service/interfaces';
 import { CellProps } from '@/common/components/Table';
 
-export default function ${2}( props: CellProps<${1/\w+/\u$0/g}> ): JSX.Element {
+export default function ${2}( props: CellProps<${1/\w+/\u$0/g}> ): React.JSX.Element {
 	const { row } = props;
 	return (
 		${0:${VISUAL}}
@@ -486,8 +486,8 @@ ${0:${VISUAL}}
 endsnippet
 
 snippet createsearchmodel
-import { PaginateResult } from '@ums/library/interfaces';
-import { createSearchModel } from '@ums/reversion';
+import { PaginateResult } from '@nextseason/common/interfaces';
+import { createSearchModel } from '@nextseason/reversion';
 import { ${1}, ${2} } from '@${3}/common/interfaces';
 import { $3 } from '@/client';
 
@@ -501,17 +501,63 @@ export const use$1SearchModel = createSearchModel<$1, $2>( {
 } );
 endsnippet
 
+snippet createmodel
+import { createModel, use } from '@ums/reversion';
+import { ${1} } from '@/client';
+
+export const use${2}Model = createModel<$2>( {
+	requests : {
+		get : async () => {
+			const { body } = await $1.${3}.${4}();
+			return body;
+		}
+	}
+} );
+
+export function use$2Value() {
+	return use$2Model( state => use( state.load() ) );
+}
+endsnippet
+
+
+snippet createmodelfamily
+import { createModelFamily, use } from '@ums/reversion';
+import { ${1} } from '@fims/common/interfaces';
+import { ${2} } from '@/client';
+
+export const ${3:${1/\w+/\l$0/g}}Family = createModelFamily( {
+    requests : {
+        get : async ( params ): Promise<$1> => {
+            const { body } = await fims.${4:$3}.${5:get}( params );
+            return body;
+        }
+    }
+} );
+
+export function use${3/\w+/\u$0/g}Model( params ) {
+    return $3Family( params )();
+}
+
+export function $3Model( params ) {
+    return $3Family( params );
+};
+
+export function use${3/\w+/\u$0/g}Value( params ) {
+    return $3Family( params )( state => use( state.load() ) );
+}
+endsnippet
+
 snippet react.c "create a react function component"
 import React from 'react';
 import clsx from 'clsx';
 import { msx } from '@nextseason/msx';
-import ${1:Box}, { $1Props } from '@mui/joy/$1';
-import { Override } from '@common/typings';
+import type { Merge } from '@nextseason/utility-types';
+import ${1:Box}, { type $1Props } from '@mui/material/$1';
 
-export type ${2}Props = Override<$1Props, {
+export type ${2}Props = Merge<$1Props, {
 }>;
 
-export default function $2( props: $2Props ): JSX.Element {
+export default function $2( props: $2Props ): React.JSX.Element {
 
 	const { sx, className, ...rest } = props;
 
@@ -523,31 +569,36 @@ export default function $2( props: $2Props ): JSX.Element {
 }
 endsnippet
 
-snippet react.f "create a react forwardRef component"
+snippet react.m "create a react function component"
 import React from 'react';
 import clsx from 'clsx';
 import { msx } from '@nextseason/msx';
-import ${1:Box}, { $1Props } from '@mui/joy/$1';
-import { Override } from '@common/typings';
+import type { Merge } from '@nextseason/utility-types';
+import ${1:Box}, { type $1Props } from '@mui/material/$1';
 
-export type ${2}Props = Override<$1Props, {
+type ${2}Props = Merge<$1Props, {
 }>;
 
-export default React.forwardRef(
-	function $2( props: $2Props, ref: React.ForwardedRef<HTMLElement> ): JSX.Element {
-		const { sx, className, ...rest } = props;
+export function $2( props: $2Props ): React.JSX.Element {
 
-		return (
-			<$1 className={clsx( className )}
-				sx={msx( sx )}
-				ref={ref}
-				{...rest}
-			>
-				${0:${VISUAL}}
-			</$1>
-		);
-	}
-);
+	const { sx, className, ...rest } = props;
+
+	return (
+		<$1 className={clsx( className )} sx={msx( sx )} {...rest}>
+			${0:${VISUAL}}
+		</$1>
+	);
+}
+
+export namespace $2 {
+	export type Props = $2Props;
+}
+
+export default $2;
+endsnippet
+
+snippet "fe.buttons" "import { Buttons } from '@frontend/ui/Buttons'" r
+import { Buttons } from '@frontend/ui/Buttons';
 endsnippet
 
 snippet react.h.us "const [ x, setX ] = React.useState( v )"
@@ -569,18 +620,18 @@ import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { msx } from '@nextseason/msx';
 import { useSearchParams } from 'react-router-dom';
-import Sheet, { SheetProps } from '@mui/joy/Sheet';
+import Sheet, { type SheetProps } from '@mui/joy/Sheet';
 import DataTable from '@nextseason/uniui/DataTable';
-import { Override } from '@common/typings';
-import { PaginateType } from '@ums/library/enums';
+import type { Merge } from '@nextseason/common/utility-types';
+import { PaginateType } from '@nextseason/common/enums';
 import { ${1} } from '@/models';
 import { columns } from './columns';
 
-export type TableViewProps = Override<SheetProps, {
+export type TableViewProps = Merge<SheetProps, {
 	${2}
 }>;
 
-export default function TableView( props: TableViewProps ): JSX.Element {
+export default function TableView( props: TableViewProps ): React.JSX.Element {
 
     const { sx, className,${3} ...rest } = props;
     const [ searchParams, setSearchParams ] = useSearchParams();

@@ -191,3 +191,158 @@ export class ${1}Data {
 	declare ${0:${VISUAL}}
 }
 endsnippet
+
+# ynn standard service
+
+snippet ynn.service
+import { Injectable } from '@ynn/injection';
+import { ProjectionType } from 'mongoose';
+import { MongoQueryOptions } from '@ums/library';
+import { ${1}, $1Creation, $1FindCondition, $1Update } from '@${2}/common/interfaces';
+import { $1Model } from '../models';
+
+@Injectable()
+export class $1Service {
+    constructor(
+        private model: $1Model${0:${VISUAL}}
+    ) {}
+
+    async create( data: $1Creation ): Promise<$1> {
+        return this.model.insert( data );
+    }
+
+    async get(
+		id: string,
+		projection?: ProjectionType<$1>,
+		options?: MongoQueryOptions<$1>
+	): Promise<$1 | null> {
+        return this.model.get( { id }, projection, options );
+    }
+
+    async update( id: string, data: $1Update ): Promise<$1 | null> {
+        return this.model.update( { id }, {
+            $set : data
+        } );
+    }
+
+    async delete( id: string ): Promise<$1 | null> {
+        return this.model.delete( { id } );
+    }
+
+    async findByIds(
+		ids: string[],
+		projection?: ProjectionType<$1>,
+		options?: MongoQueryOptions<$1>
+	): Promise<$1[]> {
+        return this.model.find( { id : { $in : ids } }, projection, options );
+    }
+
+    async find(
+		condition: $1FindCondition,
+		projection?: ProjectionType<$1>,
+		options?: MongoQueryOptions<$1>
+	): Promise<$1[]> {
+        return this.model.find( condition, projection, options );
+    }
+}
+endsnippet
+
+snippet ynn.search-service
+import { estypes } from '@elastic/elasticsearch';
+import { Injectable } from '@ynn/injection';
+import { createPaginateSearchOptions, ElasticSearchService, LoggerService } from '@ums/library';
+import { PaginateSearchOptions } from '@ums/library/interfaces';
+import { ${1}, $1SearchCondition } from '@${2}/common/interfaces';
+import { $1Model, $1SearchModel } from '${3}/models';
+import { $1Service } from './${1/\w+/\l$0/g}.service';
+
+@Injectable()
+export class $1SearchService extends ElasticSearchService<$1> {
+    constructor(
+        public model: $1SearchModel,
+        public ${1/\w+/\l$0/g}Model: $1Model,
+        public logger: LoggerService,
+        public ${1/\w+/\l$0/g}Service: $1Service
+    ) {
+        super();
+        ${1/\w+/\l$0/g}Model.watch( [], {
+            fullDocumentBeforeChange : 'required',
+            fullDocument : 'updateLookup'
+        } ).on( 'change', change => {
+            const id = change.fullDocumentBeforeChange?.id ?? change?.fullDocument?.id;
+            id && this.index( id );
+        } );
+    }
+
+    async index( id: string ): Promise<void> {
+        const ${1/\w+/\l$0/g} = await this.${1/\w+/\l$0/g}Service.get( id );
+
+        if( !${1/\w+/\l$0/g} ) {
+            await this.model.delete( id );
+            return;
+        }
+
+        await this.model.create( ${1/\w+/\l$0/g} );
+    }
+
+    async search(
+        conditions?: $1SearchCondition,
+        options?: PaginateSearchOptions
+    ): Promise<estypes.SearchResponse<{ id: string }>> {
+        const { query${4} } = conditions ?? {};
+
+        const filter: estypes.QueryDslQueryContainer[] = [];
+
+        const condition: estypes.QueryDslQueryContainer[] = [];
+
+		if( query ) {
+			condition.push( {
+				${0:${VISUAL}}
+			} );
+		}
+
+        const searchQuery = {
+            query : { bool : { must : condition, filter } },
+            _source : [ 'id' ],
+        	sort : estypes.Sort = [
+				'_score',
+				{
+					createdAt : {
+						order : 'desc',
+						format : 'basic_date_time'
+					}
+				}
+			],
+            ...createPaginateSearchOptions( options )
+        };
+
+        this.logger.info( 'search ${1/\w+/\l$0/g}', searchQuery );
+
+        return this.model.search( searchQuery );
+    }
+
+    async indexAll(): Promise<void> {
+        const data = await this.${1/\w+/\l$0/g}Service.find(
+            {},
+            { id : 1 },
+            { paginate : { rn : 100000 } }
+        );
+
+        this.logger.info( 'start to index all ${5:${1/\w+/\l$0/g}s}', {
+            total : data.length,
+            time : +new Date
+        } );
+
+        for( const item of data ) {
+            this.logger.info( 'indexing ${1/\w+/\l$0/g}', {
+            } );
+            // eslint-disable-next-line no-await-in-loop
+            await this.index( item.id );
+        }
+
+        this.logger.info( 'finish indexing all ${5:${1/\w+/\l$0/g}s}', {
+            time : +new Date
+        } );
+    }
+}
+endsnippet
