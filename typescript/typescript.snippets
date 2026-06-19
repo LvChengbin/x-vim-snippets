@@ -56,8 +56,8 @@ class ${1}extends ${2:Base} {
 endsnippet
 
 # for
-snippet for "for( let i = 0, l = x.length; i < l; i += 1 ) { const item = x[ i ]; }"
-for( let ${1:i} = 0, ${2:l} = ${3:list}.length; $1 < $2; $1 += 1 ) {
+snippet for "for( let i = 0; i < x.length; i += 1 ) { const item = x[ i ]; }"
+for( let ${1:i} = 0; $1 < ${2}; $1 += 1 ) {
 	const ${4:item} = $3[ $1 ];
 	${0:${VISUAL}}
 }
